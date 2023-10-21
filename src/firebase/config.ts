@@ -1,4 +1,4 @@
-import { getAuth } from "firebase-admin/auth";
+import { getAuth } from "firebase/auth";
 import { initializeApp, getApps } from "firebase/app";
 
 const firebaseConfig = {
@@ -16,5 +16,5 @@ let firebase_app =
 
 let auth = getAuth(firebase_app);
 
-export default firebase_app;
 export { auth };
+export default firebase_app;

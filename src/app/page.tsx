@@ -1,5 +1,8 @@
-import Image from "next/image";
+"use client";
+import { useAuthContext } from "@/context/authContext";
 
 export default function Home() {
-  return <div></div>;
+  const { user } = useAuthContext();
+
+  return <div>{user?.uid}</div>;
 }
