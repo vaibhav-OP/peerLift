@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import useMultistepForm from "@/hooks/multiStepForm";
+import { useState, useRef } from "react";
+import PhoneInput from "react-phone-input-2";
 import {
   ConfirmationResult,
   RecaptchaVerifier,
@@ -9,23 +9,32 @@ import {
 
 import { auth as FirebaseAuth } from "@/firebase/config";
 
+import "react-phone-input-2/lib/style.css";
+
 export default function LoginForm() {
-  const [phone, setPhone] = useState("");
   const [otp, setotp] = useState("");
+  const [phone, setPhone] = useState("");
   const [final, setfinal] = useState<ConfirmationResult | null>(null);
+
+  const verifyButtonRef = useRef<HTMLButtonElement>(null);
 
   const signin = () => {
     if (phone === "" || phone.length < 10) return;
 
     let verify = new RecaptchaVerifier(FirebaseAuth, "recaptcha-container");
-    signInWithPhoneNumber(FirebaseAuth, "+91" + phone, verify)
+
+    if (!verify || !verifyButtonRef.current) return;
+    verifyButtonRef.current.disabled = true;
+
+    signInWithPhoneNumber(FirebaseAuth, "+" + phone, verify)
       .then(result => {
-        alert("code sent");
         setfinal(result);
       })
       .catch(err => {
         alert(err);
-        window.location.reload();
+        console.log(err);
+
+        // window.location.reload();
       });
   };
 
@@ -44,84 +53,74 @@ export default function LoginForm() {
       });
   };
 
-  const handleNext = () => next;
-
-  const { next, previous, step, currentStepIndex, steps } = useMultistepForm([
-    <>
-      <div>
-        <label htmlFor="phone">Enter your phone number:</label>
-        <input
-          type="number"
-          placeholder="+91"
-          id="phone"
-          name="phone"
-          value={phone}
-          onChange={e => setPhone(e.target.value)}
-        />
-        <div id="recaptcha-container"></div>
-        <button onClick={signin} type="button">
-          next
-        </button>
-      </div>
-      <div>
-        <h4>OTP Verification</h4>
-        <label htmlFor="otp">Enter your phone number:</label>
-        <button type="button">Resend otp X seconds...</button>
-        <input
-          type="number"
-          id="otp"
-          name="otp"
-          value={otp}
-          onChange={e => setotp(e.target.value)}
-        />
-        <button onClick={ValidateOtp} type="button">
-          verify
-        </button>
-      </div>
-    </>,
-    <>
-      <div>
-        <label htmlFor="username">Setup your username:</label>
-        <label htmlFor="username">(Don't use your real name)</label>
-        <input type="text" id="username" name="username" />
-      </div>
-      <div>
-        <label htmlFor="gender">Enter your gender:</label>
-        <input type="text" id="gender" name="gender" />
-      </div>
-      <div>
-        <label htmlFor="age">Enter your age</label>
-        <input type="number" id="age" name="age" />
-      </div>
-      <div>
-        <label htmlFor="bio">Choose a bio (optional):</label>
-        <textarea id="bio" name="bio" />
-      </div>
-    </>,
-    <>
-      <label htmlFor="interest"></label>
-      <select name="interest" id="interest" multiple>
-        <option value="ocd">OCD</option>
-        <option value="work/career">Work/Career</option>
-      </select>
-    </>,
-  ]);
-
   return (
-    <form className="flex flex-col">
-      {step}
-      <div>
-        {currentStepIndex > 0 && (
-          <button type="button" onClick={previous}>
-            Back
+    <div className="h-screen flex justify-center gap-6 items-center flex-col w-fit mx-auto">
+      {!final ? (
+        <>
+          <div className="text-center max-w-xs">
+            <h1 className="font-bold text-[32px]">OTP VERIFICATION</h1>
+            <div className="text-text/80">
+              we will send you an <b className="text-text">One Time Password</b>{" "}
+              one this mobile number
+            </div>
+          </div>
+          <div className="flex flex-col w-10/12 max-w-xs text-center text-text/80">
+            <label htmlFor="phone" className="text-sm font-bold">
+              Enter Mobile Number
+            </label>
+            <div className="text-text font-bold">
+              <PhoneInput
+                country={"in"}
+                containerStyle={{
+                  paddingTop: 12,
+                  paddingBottom: 25,
+                }}
+                inputStyle={{
+                  padding: 0,
+                  fontSize: 20,
+                  width: "auto",
+                  border: "none",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  background: "transparent",
+                }}
+                buttonStyle={{
+                  background: "transparent",
+                  border: "none",
+                  display: "none",
+                }}
+                value={phone}
+                onChange={e => setPhone(e)}
+              />
+            </div>
+            <span className="h-1 w-10/12 border-text/80 border-0 border-t mx-auto" />
+          </div>
+          <div id="recaptcha-container"></div>
+          <button
+            type="button"
+            onClick={signin}
+            className="bg-primary/40 text-background rounded-max w-10/12 max-w-sm py-4 px-10 mx-auto font-medium disabled:cursor-not-allowed"
+            ref={verifyButtonRef}>
+            Verify
           </button>
-        )}
-        {currentStepIndex < steps.length - 1 && (
-          <button type="button" onClick={next}>
-            Next
+        </>
+      ) : (
+        <>
+          <h4>OTP Verification</h4>
+          <label htmlFor="otp">Enter your phone number:</label>
+          <button type="button">Resend otp X seconds...</button>
+          <input
+            type="number"
+            id="otp"
+            name="otp"
+            value={otp}
+            onChange={e => setotp(e.target.value)}
+          />
+          <button onClick={ValidateOtp} type="button">
+            verify
           </button>
-        )}
-      </div>
-    </form>
+        </>
+      )}
+    </div>
   );
 }
