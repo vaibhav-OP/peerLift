@@ -99,7 +99,7 @@ export default function LoginForm() {
           <button
             type="button"
             onClick={signin}
-            className="bg-primary/40 text-background rounded-max w-10/12 max-w-sm py-4 px-10 mx-auto font-medium disabled:cursor-not-allowed"
+            className="bg-primary text-background rounded-max w-10/12 max-w-sm py-4 px-10 mx-auto font-medium disabled:bg-primary/40 disabled:cursor-not-allowed"
             ref={verifyButtonRef}>
             Verify
           </button>

@@ -11,6 +11,7 @@ import { User, onAuthStateChanged } from "firebase/auth";
 
 import { auth, db } from "@/firebase/config";
 import RegistrationForm from "@/components/Forms/Registration";
+import LoginForm from "@/components/Forms/Login";
 
 interface AuthContextProps {
   user: User | null;
@@ -55,8 +56,12 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     <AuthContext.Provider value={{ user }}>
       {loading ? (
         <>loading</>
+      ) : !user ? (
+        <LoginForm />
+      ) : !isUserRegistered ? (
+        <RegistrationForm />
       ) : (
-        !loading && !isUserRegistered && <RegistrationForm />
+        <>{children}</>
       )}
     </AuthContext.Provider>
   );
