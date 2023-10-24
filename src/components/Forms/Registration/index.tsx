@@ -62,7 +62,7 @@ export default function RegistrationForm() {
     <Fragment key="userDetails">
       <div>
         <label htmlFor="displayName">Setup your username:</label>
-        <label htmlFor="displayName">(Don't use your real name)</label>
+        <label htmlFor="displayName">(Don&apos;t use your real name)</label>
         <input
           type="text"
           id="displayName"
