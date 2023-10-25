@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/context/authContext";
-import { collection, addDoc } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
 import { InAppLinks } from "@/types/links";
@@ -33,6 +33,7 @@ export default function CreateThreadForm({
         title: formData.title,
         body: formData.body,
         type: threadType,
+        createdAt: serverTimestamp(),
         user: {
           uid: user?.uid,
           displayName: user?.displayName,

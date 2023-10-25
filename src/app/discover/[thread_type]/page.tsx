@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  orderBy,
+  limit,
+} from "firebase/firestore";
 
 import { db } from "@/firebase/config";
 import { Thread, ThreadList } from "@/types/threads";
@@ -8,6 +15,8 @@ import CreateThreadModal from "@/components/CreateThreadModal";
 async function fetchThreadData(threadType: string) {
   const threadQuery = query(
     collection(db, "threads"),
+    orderBy("createdAt"),
+    limit(25),
     where("type", "==", threadType)
   );
   const threadSnap = await getDocs(threadQuery);
