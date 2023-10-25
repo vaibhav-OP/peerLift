@@ -7,7 +7,7 @@ export default function Header() {
         <input
           type="text"
           placeholder="search"
-          className="w-full outline-none py-2 px-6 bg-[#2C2C2C] rounded-3xl placeholder:text-white"
+          className="w-full outline-none py-2 px-6 bg-text/25 rounded-3xl placeholder:text-white"
         />
       </div>
       <div>

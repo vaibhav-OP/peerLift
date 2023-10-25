@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-black text-text h-screen flex flex-col">
+      <body className="bg-background text-text h-screen flex flex-col">
         <AuthContextProvider>
           <Header />
           <div className="flex-grow flex flex-col sm:flex-row-reverse">

@@ -1,18 +1,18 @@
 import { InterestArray } from "./types";
 
 const InterestList: InterestArray = [
-  "ADHD/ADD",
+  "ADHD (ADD)",
   "Anxiety",
   "Autism",
   "Depression",
   "Physical Problems",
-  "Addiction/ Relapse",
+  "Addiction (Relapse)",
   "Disassociation ",
   "Eating Disorder",
   "OCD",
   "Personality Disorder",
-  "Trauma/ PTSD",
-  "Schizophrenia/ Psychosis",
+  "Trauma (PTSD)",
+  "Schizophrenia (Psychosis)",
 ];
 
 export default InterestList;

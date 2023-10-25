@@ -14,7 +14,7 @@ import { InAppLinks } from "@/types/links";
 export default function Navbar() {
   const pathname = usePathname();
   return (
-    <nav className="bg-black sm:-translate-y-[1px]">
+    <nav className="bg-background sm:-translate-y-[1px]">
       <ul
         className="flex w-full justify-between border-t border-text/25
                   text-sm font-bold px-4 h-[76px]
@@ -33,17 +33,17 @@ export default function Navbar() {
         <li
           className={clsx(
             "flex items-center sm:block",
-            pathname == InAppLinks.community && "text-primary"
+            pathname.includes(InAppLinks.discover) && "text-primary"
           )}>
-          <Link href={InAppLinks.community}>
+          <Link href={InAppLinks.discover}>
             <BsFillHouseDoorFill className="h-9 w-8 mx-auto" />
-            Community
+            Discover
           </Link>
         </li>
         <li
           className={clsx(
             "flex items-center sm:block",
-            pathname == InAppLinks.messages && "text-primary"
+            pathname.includes(InAppLinks.messages) && "text-primary"
           )}>
           <Link href={InAppLinks.messages}>
             <BsFillChatDotsFill className="h-9 w-8 mx-auto" />
@@ -53,7 +53,7 @@ export default function Navbar() {
         <li
           className={clsx(
             "flex items-center sm:block",
-            pathname == InAppLinks.profile && "text-primary"
+            pathname.includes(InAppLinks.profile) && "text-primary"
           )}>
           <Link href={InAppLinks.profile}>
             <BsFillPersonFill className="h-9 w-8 mx-auto" />

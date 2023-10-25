@@ -12,11 +12,11 @@ const config: Config = {
         max: "48px",
       },
       colors: {
-        text: "#FEFBFE",
+        text: "#0C040B",
         accent: "#70BB3A",
         primary: "#BCF990",
         secondary: "#0A1F16",
-        background: "#0C040B",
+        background: "#FEFBFE",
       },
     },
   },
