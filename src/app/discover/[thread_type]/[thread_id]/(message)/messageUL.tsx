@@ -71,7 +71,7 @@ export default function MessageUl({
     return () => unsubscribe();
   }, []);
   return (
-    <ul className="flex-grow">
+    <ul className="flex-grow overflow-x-auto">
       {messageList.map(message => (
         <li key={message.uid} className="border-b">
           <div className="font-bold">

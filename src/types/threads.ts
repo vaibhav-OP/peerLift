@@ -1,9 +1,11 @@
+import { DocumentReference } from "firebase/firestore";
+
 export type Thread = {
   uid: string;
   body: string;
   title: string;
   type: string;
-  user: { uid: String; displayName: String };
+  user: DocumentReference;
 };
 
 export type ThreadList = Array<Thread>;

@@ -27,7 +27,7 @@ export default async function threadPage({
 
   return (
     <div className="h-full flex flex-col">
-      <div className="border-b-8">
+      <div className="border-b-8 bg-white">
         <h4 className="font-bold">{threadData?.title}</h4>
         <span>{threadData?.body}</span>
       </div>

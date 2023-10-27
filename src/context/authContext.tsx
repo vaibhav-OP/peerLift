@@ -6,15 +6,19 @@ import {
   useEffect,
   useState,
 } from "react";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { User, onAuthStateChanged } from "firebase/auth";
 
 import { auth, db } from "@/firebase/config";
-import RegistrationForm from "@/components/Forms/Registration";
 import LoginForm from "@/components/Forms/Login";
+import RegistrationForm from "@/components/Forms/Registration";
+
+import { UserData } from "@/types/user";
+
+type UserInter = UserData & User;
 
 interface AuthContextProps {
-  user: User | null;
+  user: UserInter | null;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -24,7 +28,7 @@ export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserInter | null>(null);
   const [isUserRegistered, setIsUserRegistered] = useState(true);
 
   useEffect(() => {
@@ -39,7 +43,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
           newUser = Object.assign(newUser, userSnap.data());
         }
 
-        setUser(newUser);
+        setUser(newUser as UserInter);
         setLoading(false);
       } else {
         setUser(null);

@@ -6,11 +6,14 @@ import {
   getDocs,
   orderBy,
   limit,
+  getDoc,
 } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
 import { Thread, ThreadList } from "@/types/threads";
 import CreateThreadModal from "@/components/CreateThreadModal";
+import { UserData } from "@/types/user";
+import Image from "next/image";
 
 async function fetchThreadData(threadType: string) {
   const threadQuery = query(
@@ -22,9 +25,10 @@ async function fetchThreadData(threadType: string) {
   const threadSnap = await getDocs(threadQuery);
 
   const threadsList: ThreadList = [];
-  threadSnap.forEach(thread =>
-    threadsList.push({ uid: thread.id, ...thread.data() } as Thread)
-  );
+  threadSnap.forEach(async thread => {
+    var threadData: Thread = { uid: thread.id, ...thread.data() } as Thread;
+    threadsList.push(threadData);
+  });
 
   return threadsList;
 }
@@ -40,15 +44,36 @@ export default async function DiscoverThreadsPage({
   return (
     <>
       <CreateThreadModal threadtype={decodeURI(params.thread_type)} />
-      <ul>
-        {threadsList.map((thread, index) => (
-          <li key={index} className="border-b">
-            <Link href={`${params.thread_type}/${thread.uid}`}>
-              <h6>{thread.title}</h6>
-              {thread.body}
-            </Link>
-          </li>
-        ))}
+      <ul className="flex flex-wrap items-center justify-center gap-6 p-6 ">
+        {threadsList.map(async (thread, index) => {
+          const userSnap = await getDoc(thread.user);
+          const userData = userSnap.data() as UserData;
+
+          return (
+            <li
+              key={index}
+              className="border-b bg-primary w-11/12 max-w-sm text-text rounded-2xl self-stretch shadow-xl">
+              <Link
+                href={`${params.thread_type}/${thread.uid}`}
+                className="block h-full p-3">
+                <div className="flex gap-3">
+                  <Image
+                    src={userData.photoURL}
+                    alt={userData.displayName}
+                    width={48}
+                    height={48}
+                    className="w-12 h-12 rounded-full"
+                  />
+                  <div className="truncate">
+                    <span className="font-medium">{userData.displayName}</span>
+                    <h6 className="font-bold text-lg ">{thread.title}</h6>
+                  </div>
+                </div>
+                <div className="line-clamp-3">{thread.body}</div>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </>
   );

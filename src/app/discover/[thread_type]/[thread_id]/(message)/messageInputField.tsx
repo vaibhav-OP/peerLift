@@ -44,22 +44,24 @@ export default function MessageInputField({
   };
 
   return (
-    <div className="flex w-10/12 p-1 mx-auto mb-3 bg-text/25 rounded-3xl">
-      <input
-        type="text"
-        id="messageInputField"
-        placeholder="Message..."
-        name="messageInputField"
-        value={message}
-        onKeyDownCapture={handleClick}
-        onChange={e => setMessage(e.target.value)}
-        className="w-full px-3 h-full outline-none bg-transparent"
-      />
-      <button
-        className="bg-accent text-xl text-white p-2 rounded-full"
-        onClick={handleSendMessage}>
-        <BiSolidSend />
-      </button>
+    <div className="bg-white py-3">
+      <div className="flex w-11/12 p-1 mx-auto bg-text/25 rounded-3xl">
+        <input
+          type="text"
+          id="messageInputField"
+          placeholder="Message..."
+          name="messageInputField"
+          value={message}
+          onKeyDownCapture={handleClick}
+          onChange={e => setMessage(e.target.value)}
+          className="w-full px-3 h-full outline-none bg-transparent"
+        />
+        <button
+          className="bg-accent text-xl text-white p-2 rounded-full"
+          onClick={handleSendMessage}>
+          <BiSolidSend />
+        </button>
+      </div>
     </div>
   );
 }

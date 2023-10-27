@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/context/authContext";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
 import { InAppLinks } from "@/types/links";
@@ -29,20 +29,19 @@ export default function CreateThreadForm({
     e.preventDefault();
 
     try {
+      const userRef = doc(db, "users", user?.uid || "");
       const newThread = await addDoc(collection(db, "threads"), {
         title: formData.title,
         body: formData.body,
         type: threadType,
         createdAt: serverTimestamp(),
-        user: {
-          uid: user?.uid,
-          displayName: user?.displayName,
-        },
+        user: userRef,
       });
 
       route.push(`${InAppLinks.discover}/${threadType}/${newThread.id}`);
-    } catch {
+    } catch (error) {
       alert("something went wrong");
+      alert(error);
     }
   };
 

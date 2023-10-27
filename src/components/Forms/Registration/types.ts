@@ -6,17 +6,17 @@ export type UserDetails = {
 };
 
 export type Interests =
-  | "ADHD (ADD)"
-  | "Anxiety"
+  | "OCD"
   | "Autism"
   | "Depression"
-  | "Physical Problems"
-  | "Addiction (Relapse)"
-  | "Disassociation "
+  | "ADHD & ADD"
+  | "Trauma & PTSD"
+  | "Disassociation"
   | "Eating Disorder"
-  | "OCD"
+  | "Stress & Anxiety"
+  | "Physical Problems"
+  | "Addiction & Relapse"
   | "Personality Disorder"
-  | "Trauma (PTSD)"
-  | "Schizophrenia (Psychosis)";
+  | "Schizophrenia & Psychosis";
 
 export type InterestArray = Array<Interests>;
