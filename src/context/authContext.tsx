@@ -26,7 +26,7 @@ export const AuthContext = createContext<AuthContextProps>({
 });
 export const useAuthContext = () => useContext(AuthContext);
 
-export const AuthContextProvider = ({ children }: PropsWithChildren) => {
+export const AuthContextProvider = ({ children }: PropsWithChildren<{}>) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<UserInter | null>(null);
   const [isUserRegistered, setIsUserRegistered] = useState(true);
