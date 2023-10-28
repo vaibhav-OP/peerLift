@@ -22,7 +22,7 @@ export default function RootLayout({
         <AuthContextProvider>
           <Header />
           <div className="flex-grow flex flex-col sm:flex-row-reverse">
-            <main className="flex-grow">{children}</main>
+            <main>{children}</main>
             <Navbar />
           </div>
         </AuthContextProvider>
