@@ -1,7 +1,7 @@
 import { BiSolidBell } from "react-icons/bi";
 export default function Header() {
   return (
-    <header className="flex gap-3 px-4 sm:px-12 h-20 items-center border-b border-text/25">
+    <header className="flex gap-3 px-4 sm:px-12 py-3 h-20 items-center border-b border-text/25">
       <div className="text-primary font-bold text-2xl">PeerLift</div>
       <div className="grow">
         <input

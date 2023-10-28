@@ -13,18 +13,21 @@ export default function DiscoverPage() {
   });
 
   return (
-    <ul className="flex flex-wrap gap-4 justify-center">
-      {interestList.map(interest => (
-        <li
-          key={interest}
-          className="w-44 h-44 shadow-2xl rounded-2xl bg-white overflow-hidden">
-          <Link
-            href={`${InAppLinks.discover}/${interest}`}
-            className="h-full w-full block">
-            {interest}
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <>
+      <h1 className="font-bold text-2xl mb-6">Explore categories</h1>
+      <ul className="flex flex-wrap gap-3 sm:gap-4 justify-center">
+        {interestList.map(interest => (
+          <li
+            key={interest}
+            className="w-44 h-44 shadow-2xl rounded-2xl bg-white overflow-hidden">
+            <Link
+              href={`${InAppLinks.discover}/${interest}`}
+              className="h-full w-full block">
+              {interest}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }

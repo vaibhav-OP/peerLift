@@ -16,9 +16,9 @@ export default function Navbar() {
   return (
     <nav className="bg-background sm:-translate-y-[1px]">
       <ul
-        className="flex w-full justify-between border-t border-text/25
+        className="flex w-full justify-between
                   text-sm font-bold px-4 h-[76px]
-                 sm:border-r sm:border-t-0 sm:gap-12 sm:justify-center
+                  sm:gap-12 sm:justify-center
                  sm:flex-col sm:w-fit sm:h-full sm:text-center">
         <li
           className={clsx(

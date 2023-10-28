@@ -20,7 +20,7 @@ export default function CreateThreadModal({
   }
 
   return (
-    <>
+    <div className="py-3">
       <Modal
         ariaHideApp={false}
         isOpen={modalIsOpen}
@@ -29,10 +29,12 @@ export default function CreateThreadModal({
         contentLabel="Create Thread Modal">
         <CreateThreadForm threadType={threadtype} />
       </Modal>
-      <button className="fixed bottom-6 right-6" onClick={openModal}>
-        <BsPlusCircleFill className="h-10 w-10" />
+      <button
+        className="sticky w-11/12 top-6 left-1/2 -translate-x-1/2 rounded-full py-4 text-center bg-secondary text-background"
+        onClick={openModal}>
+        <span className="text-xl">Create a Thread</span>
       </button>
-    </>
+    </div>
   );
 }
 
