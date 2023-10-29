@@ -62,7 +62,6 @@ export default function CreateThreadForm({
         placeholder="body"
         value={formData.body}
         onChange={handleFormFieldOnChange}
-        required
         className="bg-primary/80 placeholder:text-text/60 max-h-96 py-5 px-8 rounded-2xl outline-none flex-grow"
       />
       <br />

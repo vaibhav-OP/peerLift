@@ -9,7 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       height: {
-        screen: ["100vh", "100dvh"].join(", "),
+        // @ts-ignore
+        screen: ["100vh", "100dvh"],
       },
       borderRadius: {
         max: "48px",
