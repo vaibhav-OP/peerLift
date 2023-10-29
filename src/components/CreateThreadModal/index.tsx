@@ -1,8 +1,10 @@
 "use client";
 import Modal from "react-modal";
 import { useState } from "react";
-import { BsPlusCircleFill } from "react-icons/bs";
 import CreateThreadForm from "./createThreadForm";
+
+import { AiOutlineClose } from "react-icons/ai";
+import { BsPlusCircleFill } from "react-icons/bs";
 
 export default function CreateThreadModal({
   threadtype,
@@ -20,30 +22,45 @@ export default function CreateThreadModal({
   }
 
   return (
-    <div className="py-3">
+    <>
       <Modal
-        ariaHideApp={false}
+        ariaHideApp={true}
         isOpen={modalIsOpen}
         style={customStyleSheet}
         onRequestClose={closeModal}
         contentLabel="Create Thread Modal">
+        <div className="flex justify-between text-2xl font-bold mb-12">
+          <div className="flex gap-3">
+            <div>logo</div>
+            <h1>What’s on your mind?</h1>
+          </div>
+          <button onClick={closeModal}>
+            <AiOutlineClose />
+          </button>
+        </div>
         <CreateThreadForm threadType={threadtype} />
       </Modal>
       <button
-        className="sticky w-11/12 top-6 left-1/2 -translate-x-1/2 rounded-full py-4 text-center bg-secondary text-background"
+        className="fixed shadow-2xl right-8 bottom-24 sm:bottom-4 rounded-full text-center text-secondary"
         onClick={openModal}>
-        <span className="text-xl">Create a Thread</span>
+        <span className="text-5xl">
+          <BsPlusCircleFill />
+        </span>
       </button>
-    </div>
+    </>
   );
 }
 
 const customStyleSheet = {
   content: {
+    padding: "26px",
     margin: "auto",
     border: "none",
-    width: "fit-content",
-    height: "fit-content",
+    width: "100%",
+    maxWidth: 672,
+    overflow: "hidden",
+    height: "100vh",
+    inset: "unset",
     boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)",
   },
 };

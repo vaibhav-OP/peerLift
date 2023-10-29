@@ -22,7 +22,9 @@ export default function RootLayout({
         <AuthContextProvider>
           <Header />
           <div className="flex-grow flex flex-col sm:flex-row-reverse overflow-y-auto">
-            <main className="overflow-y-auto p-4 w-full">{children}</main>
+            <main className="overflow-y-auto p-4 w-full flex-grow">
+              {children}
+            </main>
             <Navbar />
           </div>
         </AuthContextProvider>

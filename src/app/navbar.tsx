@@ -14,7 +14,7 @@ import { InAppLinks } from "@/types/links";
 export default function Navbar() {
   const pathname = usePathname();
   return (
-    <nav className="bg-background sm:-translate-y-[1px]">
+    <nav className="bg-background">
       <ul
         className="flex w-full justify-between
                   text-sm font-bold px-4 h-[76px]

@@ -43,7 +43,7 @@ export default async function DiscoverThreadsPage({
 }) {
   const threadsList = await fetchThreadData(decodeURI(params.thread_type));
   return (
-    <div className="relative">
+    <>
       <CreateThreadModal threadtype={decodeURI(params.thread_type)} />
       <ul className="flex flex-wrap items-start justify-center gap-6 p-6">
         {await Promise.all(
@@ -75,6 +75,6 @@ export default async function DiscoverThreadsPage({
           })
         )}
       </ul>
-    </div>
+    </>
   );
 }
