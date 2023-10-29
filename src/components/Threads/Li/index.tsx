@@ -6,7 +6,7 @@ import { BsFillBookmarkFill, BsThreeDots } from "react-icons/bs";
 import { UserData } from "@/types/user";
 import { Thread } from "@/types/threads";
 
-const ThreadLi = memo(({ thread }: { thread: Thread }) => {
+const ThreadLi = memo(function ThreadLi({ thread }: { thread: Thread }) {
   const [userData, setUserData] = useState<UserData>();
 
   useEffect(() => {
