@@ -1,3 +1,4 @@
+"use client";
 import { doc, setDoc } from "firebase/firestore";
 import { ChangeEvent, Fragment, useState } from "react";
 

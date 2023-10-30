@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import Vector from "../../../../public/Vector.svg";
+import Wave from "../../../../public/wave-haikei.svg";
 import LockVector from "../../../../public/Lock Vector.svg";
 
 export default function OtpField({
@@ -14,25 +14,21 @@ export default function OtpField({
 }) {
   return (
     <>
-      <div className="fixed top-0 -z-10 overflow-hidden">
-        <div className="relative">
-          <Image
-            src={LockVector}
-            alt=""
-            width={89}
-            height={104}
-            className="h-[104px] w-[89px] absolute left-0 right-0 top-36 mx-auto"
-          />
-          <Image
-            src={Vector}
-            width={691}
-            height={738}
-            alt=""
-            className="h-[738px] w-[691px] sm:-translate-y-80"
-          />
-        </div>
+      <div className="absolute top-0 left-0 -z-10 w-full overflow-hidden">
+        <Image
+          src={Wave}
+          alt=""
+          className="w-full h-[750px] sm:h-[600px] object-cover"
+        />
       </div>
       <div className="flex flex-col gap-10 mt-52">
+        <Image
+          src={LockVector}
+          alt=""
+          width={89}
+          height={104}
+          className="h-[104px] w-[89px] absolute left-0 right-0 top-36 mx-auto"
+        />
         <input
           type="number"
           name="phone"
