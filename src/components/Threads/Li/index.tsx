@@ -1,36 +1,34 @@
 import Link from "next/link";
-import { getDoc } from "firebase/firestore";
-import { memo, useEffect, useState } from "react";
-import { BsFillBookmarkFill, BsThreeDots } from "react-icons/bs";
+import { memo } from "react";
+import { BsBookmark, BsThreeDots, BsShare } from "react-icons/bs";
 
-import { UserData } from "@/types/user";
 import { Thread } from "@/types/threads";
+import { InAppLinks } from "@/types/links";
+import UserInfo from "./UserInfo";
+import formatTimeSince from "@/helper/timeSince";
 
 const ThreadLi = memo(function ThreadLi({ thread }: { thread: Thread }) {
-  const [userData, setUserData] = useState<UserData>();
-
-  useEffect(() => {
-    async function fetchUser() {
-      const userSnap = await getDoc(thread.user);
-      const userData = userSnap.data() as UserData;
-
-      setUserData(userData);
-    }
-    fetchUser();
-  }, []);
   return (
-    <li className="border-b bg-primary/60 w-11/12 max-w-sm text-text rounded-2xl shadow-xl">
+    <li className="border-y border-text/10 w-full text-text">
       <Link
-        href={`${thread.type}/${thread.uid}`}
+        href={`${InAppLinks.commuinity}/${thread.type}/${thread.uid}`}
         className="grid h-full p-3 gap-2">
-        <div>{userData?.displayName}</div>
-        <div>
-          <h6 className="font-bold text-lg line-clamp-4">{thread.title}</h6>
-          <span className="line-clamp-2">{thread.body}</span>
+        <div className="flex gap-3">
+          <UserInfo user={thread.user} />
+          <span className="text-text/40">
+            {formatTimeSince(thread.createdAt.toDate())}
+          </span>
         </div>
-        <div className="flex justify-end gap-5">
+        <div>
+          <h6 className="font-bold text-sm">{thread.title}</h6>
+          <span className="line-clamp-2 text-text/40 text-xs">
+            {thread.body}
+          </span>
+        </div>
+        <div className="flex gap-5">
+          <BsShare />
+          <BsBookmark />
           <BsThreeDots />
-          <BsFillBookmarkFill />
         </div>
       </Link>
     </li>

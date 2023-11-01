@@ -38,7 +38,7 @@ export default function CreateThreadForm({
         user: userRef,
       });
 
-      route.push(`${InAppLinks.discover}/${threadType}/${newThread.id}`);
+      route.push(`${InAppLinks.commuinity}/${threadType}/${newThread.id}`);
     } catch (error) {
       alert("something went wrong");
       alert(error);

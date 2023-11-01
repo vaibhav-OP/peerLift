@@ -41,7 +41,7 @@ export default function CreateThreadModal({
         <CreateThreadForm threadType={threadtype} />
       </Modal>
       <button
-        className="fixed shadow-2xl right-8 bottom-24 sm:bottom-4 rounded-full text-center text-secondary"
+        className="fixed shadow-2xl right-8 bottom-24 bg-background rounded-full text-center text-text"
         onClick={openModal}>
         <span className="text-5xl">
           <BsPlusCircleFill />

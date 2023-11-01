@@ -15,11 +15,7 @@ export default function Navbar() {
   const pathname = usePathname();
   return (
     <nav className="bg-background">
-      <ul
-        className="flex w-full justify-between
-                  text-sm font-bold px-4 h-[76px]
-                  sm:gap-12 sm:justify-center
-                 sm:flex-col sm:w-fit sm:h-full sm:text-center">
+      <ul className="flex w-full justify-between fixed bg-background bottom-0 left-0 text-sm font-bold px-4 sm:px-12 py-3">
         <li
           className={clsx(
             "flex items-center sm:block",
@@ -33,11 +29,11 @@ export default function Navbar() {
         <li
           className={clsx(
             "flex items-center sm:block",
-            pathname.includes(InAppLinks.discover) && "text-primary"
+            pathname.includes(InAppLinks.commuinity) && "text-primary"
           )}>
-          <Link href={InAppLinks.discover}>
+          <Link href={InAppLinks.commuinity}>
             <BsFillHouseDoorFill className="h-9 w-8 mx-auto" />
-            Discover
+            Community
           </Link>
         </li>
         <li

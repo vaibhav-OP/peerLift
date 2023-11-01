@@ -39,15 +39,15 @@ export default function OtpField({
           className="border rounded-[20px] outline-none py-2 px-8 w-full bg-accent appearance-none"
         />
         <div>
-          <h6 className="font-bold mix-blend-difference text-white">
+          <h6 className="font-bold mix-blend-difference text-background">
             Enter Your OTP
           </h6>
           <div>
-            <span className="mix-blend- text-white">
+            <span className="mix-blend- text-background">
               Kindly wait a few seconds for your
             </span>
             <br />
-            <span className="mix-blend-difference text-white">
+            <span className="mix-blend-difference text-background">
               OTP in the given mobile number
             </span>
           </div>
@@ -55,7 +55,7 @@ export default function OtpField({
         <button
           type="button"
           onClick={ValidateOtp}
-          className="bg-black rounded-[20px] text-white w-full py-2 text-2xl disabled:bg-slate-800 disabled:cursor-not-allowed">
+          className="bg-text rounded-[20px] text-background w-full py-2 text-2xl disabled:bg-slate-800 disabled:cursor-not-allowed">
           Next
         </button>
       </div>

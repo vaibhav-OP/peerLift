@@ -59,7 +59,7 @@ export default function PhoneField({
           <button
             type="button"
             onClick={signin}
-            className="bg-black rounded-[20px] text-white w-full py-2 text-2xl disabled:bg-slate-800 disabled:cursor-not-allowed"
+            className="bg-text rounded-[20px] text-background w-full py-2 text-2xl disabled:bg-slate-800 disabled:cursor-not-allowed"
             ref={verifyButtonRef}>
             Get OTP
           </button>

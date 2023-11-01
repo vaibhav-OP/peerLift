@@ -1,4 +1,4 @@
-import { DocumentReference } from "firebase/firestore";
+import { DocumentReference, Timestamp } from "firebase/firestore";
 
 export type Thread = {
   uid: string;
@@ -6,6 +6,7 @@ export type Thread = {
   title: string;
   type: string;
   user: DocumentReference;
+  createdAt: Timestamp;
 };
 
 export type ThreadList = Array<Thread>;

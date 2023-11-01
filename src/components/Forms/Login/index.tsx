@@ -6,12 +6,16 @@ import {
   signInWithPhoneNumber,
 } from "firebase/auth";
 
+import { useRouter } from "next/navigation";
+
+import { InAppLinks } from "@/types/links";
 import { auth as FirebaseAuth } from "@/firebase/config";
 
-import PhoneField from "./phoneField";
 import OtpField from "./otpField";
+import PhoneField from "./phoneField";
 
 export default function LoginForm() {
+  const route = useRouter();
   const [otp, setotp] = useState("");
   const [phone, setPhone] = useState("");
   const [final, setfinal] = useState<ConfirmationResult | null>(null);
@@ -46,6 +50,7 @@ export default function LoginForm() {
       .then(result => {
         // success
         alert("done");
+        route.push(InAppLinks.home);
       })
       .catch(err => {
         console.log(err);

@@ -1,7 +1,7 @@
 import CreateThreadModal from "@/components/CreateThreadModal";
 import ThreadsList from "./threadsList";
 
-export default async function DiscoverThreadsPage({
+export default async function CommunityThreadsPage({
   params,
 }: {
   params: {

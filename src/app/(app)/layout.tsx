@@ -1,9 +1,11 @@
 import clsx from "clsx";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+
+import Navbar from "@/components/Navbar";
 import { AuthContextProvider } from "@/context/authContext";
 
-import "./globals.css";
+import "@/style/globals.css";
 
 export const metadata: Metadata = {
   title: "peer lift",
@@ -25,11 +27,8 @@ export default function RootLayout({
           roboto.className
         )}>
         <AuthContextProvider>
-          {/* <Header /> */}
-          {/* <div className="flex-grow flex flex-col sm:flex-row-reverse overflow-y-auto"> */}
-          <main>{children}</main>
-          {/* <Navbar /> */}
-          {/* </div> */}
+          <main className="pb-20">{children}</main>
+          <Navbar />
         </AuthContextProvider>
       </body>
     </html>

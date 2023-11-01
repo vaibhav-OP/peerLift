@@ -64,7 +64,7 @@ export default function ThreadsList({ threadType }: { threadType: string }) {
   }, []);
 
   return (
-    <ul className="flex flex-wrap items-stretch justify-center gap-6 p-6">
+    <ul className="flex flex-col items-stretch justify-center p-4">
       {threadsList.map((thread, index) => (
         <ThreadLi thread={thread} key={index} />
       ))}

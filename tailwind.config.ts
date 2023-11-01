@@ -7,6 +7,12 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    colors: {
+      text: "#000",
+      primary: "#B70808",
+      secondary: "#6B77D4",
+      background: "#fff",
+    },
     extend: {
       height: {
         // @ts-ignore
@@ -14,13 +20,6 @@ const config: Config = {
       },
       borderRadius: {
         max: "48px",
-      },
-      colors: {
-        text: "#0C040B",
-        accent: "#D7D5FC",
-        primary: "#5A5A5A",
-        secondary: "#6B77D4",
-        background: "#fff",
       },
     },
   },
