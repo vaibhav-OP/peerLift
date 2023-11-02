@@ -1,19 +1,24 @@
 "use client";
-import { db } from "@/firebase/config";
+import { useEffect, useRef, useState } from "react";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 import {
+  query,
+  orderBy,
   Timestamp,
   collection,
   onSnapshot,
-  orderBy,
-  query,
+  DocumentReference,
 } from "firebase/firestore";
-import { useEffect, useState } from "react";
+
+import { db } from "@/firebase/config";
+import formatTimeSince from "@/helper/timeSince";
+import UserInfo from "../Threads/Li/UserInfo";
 
 type Message = {
   uid: string;
   text: string;
   createdAt: Timestamp | null;
-  user: { uid: string; displayName: string };
+  user: DocumentReference;
 };
 
 export default function MessageUl({
@@ -71,17 +76,23 @@ export default function MessageUl({
     return () => unsubscribe();
   }, []);
   return (
-    <ul className="flex-grow overflow-x-auto">
+    <ul className="flex-grow overflow-y-auto h-full">
       {messageList.map(message => (
-        <li key={message.uid} className="border-b">
-          <div className="font-bold">
-            {message.user.displayName}{" "}
-            <span className="font-normal">
-              {message.createdAt?.toDate().toLocaleTimeString() ||
-                new Date().toLocaleTimeString()}
-            </span>
+        <li
+          key={message.uid}
+          className="border-b py-3 px-6 flex border-text/10">
+          <div className="flex-grow">
+            <div className="flex gap-3">
+              <UserInfo user={message.user} />
+              <span className="text-text/40">
+                {formatTimeSince(message.createdAt?.toDate() || new Date())}
+              </span>
+            </div>
+            <div className="font-normal">{message.text}</div>
           </div>
-          <div>{message.text}</div>
+          <div>
+            <BiDotsHorizontalRounded className="text-lg font-bold" />
+          </div>
         </li>
       ))}
     </ul>

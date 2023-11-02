@@ -12,6 +12,7 @@ const config: Config = {
       primary: "#B70808",
       secondary: "#6B77D4",
       background: "#fff",
+      transparent: "transparent",
     },
     extend: {
       height: {

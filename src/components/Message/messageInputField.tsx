@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import { BiSolidSend } from "react-icons/bi";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { BiUpArrowAlt } from "react-icons/bi";
+import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
 import { useAuthContext } from "@/context/authContext";
@@ -21,13 +21,11 @@ export default function MessageInputField({
     if (newMessage === "") return;
 
     try {
+      const userRef = doc(db, "users", user?.uid || "");
       await addDoc(collection(db, `threads`, params.thread_id, "messages"), {
         text: newMessage,
         createdAt: serverTimestamp(),
-        user: {
-          displayName: user?.displayName,
-          uid: user?.uid,
-        },
+        user: userRef,
       });
 
       setMessage("");
@@ -44,22 +42,23 @@ export default function MessageInputField({
   };
 
   return (
-    <div className="bg-white py-3">
-      <div className="flex w-11/12 p-1 mx-auto bg-text/25 rounded-3xl">
+    <div className="bg-background fixed w-full bottom-20 left-0 py-3">
+      <div className="flex w-11/12 gap-2 mx-auto rounded-3xl">
         <input
           type="text"
           id="messageInputField"
-          placeholder="Message..."
           name="messageInputField"
+          placeholder="Write a message..."
           value={message}
           onKeyDownCapture={handleClick}
           onChange={e => setMessage(e.target.value)}
-          className="w-full px-3 h-full outline-none bg-transparent"
+          className="w-full px-4 py-3 h-full outline-none border rounded-lg
+          placeholder:text-xs placeholder:font-normal"
         />
         <button
-          className="bg-accent text-xl text-white p-2 rounded-full"
+          className="bg-accent text-2xl bg-text text-background p-2 rounded-lg"
           onClick={handleSendMessage}>
-          <BiSolidSend />
+          <BiUpArrowAlt />
         </button>
       </div>
     </div>

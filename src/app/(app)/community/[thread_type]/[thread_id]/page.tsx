@@ -1,16 +1,19 @@
+"use client";
+import Error from "next/error";
 import { doc, getDoc } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
+import { Thread } from "@/types/threads";
+import { ThreadLi } from "@/components/Threads";
+import { MessageInputField, MessageUl } from "@/components/Message";
+import { useEffect, useState } from "react";
 
-import MessageUl from "./(message)/messageUL";
-import MessageInputField from "./(message)/messageInputField";
-
-async function fetchThreadData(threadId: string) {
+async function fetchThreadData(threadId: string): Promise<Thread | undefined> {
   const threadRef = doc(db, "threads", threadId);
   const threadSnap = await getDoc(threadRef);
 
   if (threadSnap.exists()) {
-    return threadSnap.data();
+    return (await threadSnap.data()) as Thread;
   } else {
     return undefined;
   }
@@ -23,14 +26,24 @@ export default async function threadPage({
     thread_id: string;
   };
 }) {
-  const threadData = await fetchThreadData(params.thread_id);
+  const [threadData, setThreadData] = useState<Thread>();
 
+  useEffect(() => {
+    async function fetchThread() {
+      const threadData = await fetchThreadData(params.thread_id);
+      setThreadData(threadData);
+    }
+    fetchThread();
+  }, []);
+
+  if (!threadData) return <Error statusCode={404} />;
   return (
-    <div className="h-full flex flex-col">
-      <div className="border-b-8 bg-white">
-        <h4 className="font-bold">{threadData?.title}</h4>
-        <span>{threadData?.body}</span>
-      </div>
+    <div className="pb-[69px]">
+      <ThreadLi
+        isList={false}
+        thread={threadData}
+        className="sticky top-16 left-0 bg-background"
+      />
       <MessageUl params={params} />
       <MessageInputField params={params} />
     </div>

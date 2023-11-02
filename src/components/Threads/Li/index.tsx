@@ -1,18 +1,53 @@
-import Link from "next/link";
 import { memo } from "react";
+import Link from "next/link";
 import { BsBookmark, BsThreeDots, BsShare } from "react-icons/bs";
 
 import { Thread } from "@/types/threads";
 import { InAppLinks } from "@/types/links";
-import UserInfo from "./UserInfo";
 import formatTimeSince from "@/helper/timeSince";
 
-const ThreadLi = memo(function ThreadLi({ thread }: { thread: Thread }) {
-  return (
-    <li className="border-y border-text/10 w-full text-text">
-      <Link
-        href={`${InAppLinks.commuinity}/${thread.type}/${thread.uid}`}
-        className="grid h-full p-3 gap-2">
+import UserInfo from "./UserInfo";
+import clsx from "clsx";
+
+const ThreadLi = memo(
+  ({
+    thread,
+    isList = true,
+    className,
+  }: {
+    thread: Thread;
+    isList?: Boolean;
+    className?: string;
+  }) => {
+    const Wrapper = ({ children }: { children: React.ReactNode }) => {
+      if (isList)
+        return (
+          <li
+            className={clsx(
+              "border-y border-text/10 w-full text-text",
+              className
+            )}>
+            <Link
+              href={`${InAppLinks.commuinity}/${thread.type}/${thread.uid}`}
+              className="grid h-full p-3 gap-2">
+              {children}
+            </Link>
+          </li>
+        );
+
+      return (
+        <div
+          className={clsx(
+            "border-y border-text/10 w-full text-text",
+            className
+          )}>
+          <div className="grid h-full p-3 gap-2">{children}</div>
+        </div>
+      );
+    };
+
+    return (
+      <Wrapper>
         <div className="flex gap-3">
           <UserInfo user={thread.user} />
           <span className="text-text/40">
@@ -30,9 +65,8 @@ const ThreadLi = memo(function ThreadLi({ thread }: { thread: Thread }) {
           <BsBookmark />
           <BsThreeDots />
         </div>
-      </Link>
-    </li>
-  );
-});
-
+      </Wrapper>
+    );
+  }
+);
 export default ThreadLi;
