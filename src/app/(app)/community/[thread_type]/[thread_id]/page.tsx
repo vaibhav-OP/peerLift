@@ -19,7 +19,7 @@ async function fetchThreadData(threadId: string): Promise<Thread | undefined> {
   }
 }
 
-export default async function threadPage({
+export default async function ThreadPage({
   params,
 }: {
   params: {
