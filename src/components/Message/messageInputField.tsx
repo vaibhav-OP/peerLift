@@ -8,10 +8,12 @@ import { useAuthContext } from "@/context/authContext";
 
 export default function MessageInputField({
   params,
+  scrollToBottom,
 }: {
   params: {
     thread_id: string;
   };
+  scrollToBottom: () => void;
 }) {
   const { user } = useAuthContext();
   const [message, setMessage] = useState("");
@@ -29,6 +31,7 @@ export default function MessageInputField({
       });
 
       setMessage("");
+      scrollToBottom();
     } catch (err) {
       console.log(err);
       alert("something went wrong while sending your message");

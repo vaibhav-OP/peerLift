@@ -1,4 +1,4 @@
-import MessageUl from "./messageUL";
+import MessageUI from "./messageUI";
 import MessageInputField from "./messageInputField";
 
-export { MessageUl, MessageInputField };
+export { MessageUI, MessageInputField };

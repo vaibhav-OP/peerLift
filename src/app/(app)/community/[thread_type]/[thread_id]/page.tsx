@@ -1,25 +1,14 @@
 "use client";
 import Error from "next/error";
+import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
 import { Thread } from "@/types/threads";
 import { ThreadLi } from "@/components/Threads";
-import { MessageInputField, MessageUl } from "@/components/Message";
-import { useEffect, useState } from "react";
+import { MessageUI } from "@/components/Message";
 
-async function fetchThreadData(threadId: string): Promise<Thread | undefined> {
-  const threadRef = doc(db, "threads", threadId);
-  const threadSnap = await getDoc(threadRef);
-
-  if (threadSnap.exists()) {
-    return (await threadSnap.data()) as Thread;
-  } else {
-    return undefined;
-  }
-}
-
-export default async function ThreadPage({
+export default function ThreadPage({
   params,
 }: {
   params: {
@@ -30,8 +19,13 @@ export default async function ThreadPage({
 
   useEffect(() => {
     async function fetchThread() {
-      const threadData = await fetchThreadData(params.thread_id);
-      setThreadData(threadData);
+      const threadRef = doc(db, "threads", params.thread_id);
+      const threadSnap = await getDoc(threadRef);
+
+      if (threadSnap.exists()) {
+        const threadData = (await threadSnap.data()) as Thread;
+        setThreadData(threadData);
+      }
     }
     fetchThread();
   }, []);
@@ -42,10 +36,9 @@ export default async function ThreadPage({
       <ThreadLi
         isList={false}
         thread={threadData}
-        className="sticky top-16 left-0 bg-background"
+        className="sticky top-16 left-0 bg-background z-10"
       />
-      <MessageUl params={params} />
-      <MessageInputField params={params} />
+      <MessageUI params={params} />
     </div>
   );
 }

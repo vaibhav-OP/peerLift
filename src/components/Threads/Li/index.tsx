@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { memo } from "react";
 import Link from "next/link";
 import { BsBookmark, BsThreeDots, BsShare } from "react-icons/bs";
@@ -7,7 +8,6 @@ import { InAppLinks } from "@/types/links";
 import formatTimeSince from "@/helper/timeSince";
 
 import UserInfo from "./UserInfo";
-import clsx from "clsx";
 
 const ThreadLi = memo(function ThreadLi({
   thread,
