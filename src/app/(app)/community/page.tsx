@@ -5,13 +5,19 @@ import { InAppLinks } from "@/types/links";
 import { LogoHeader } from "@/components/Header";
 import { useAuthContext } from "@/context/authContext";
 import InterestList from "@/components/Forms/Registration/interestList";
+import { useMemo } from "react";
 
 export default function CommunityPage() {
   const { user } = useAuthContext();
-  const interestList = InterestList.sort(interest => {
-    if (user?.interests.includes(interest)) return -1;
-    return 0;
-  });
+
+  const interestList = useMemo(() => {
+    const userInterests = user?.interests.sort();
+    const filteredInterests = InterestList.filter(
+      interest => !userInterests?.includes(interest)
+    );
+
+    return [...(userInterests || []), ...filteredInterests];
+  }, []);
 
   return (
     <>

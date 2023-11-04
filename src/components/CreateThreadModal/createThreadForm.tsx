@@ -18,6 +18,8 @@ export default function CreateThreadForm({
     title: "",
     body: "",
   });
+  const threadRef = collection(db, "threads");
+  const userRef = doc(db, "users", user?.uid || "");
 
   const handleFormFieldOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -29,8 +31,7 @@ export default function CreateThreadForm({
     e.preventDefault();
 
     try {
-      const userRef = doc(db, "users", user?.uid || "");
-      const newThread = await addDoc(collection(db, "threads"), {
+      const newThread = await addDoc(threadRef, {
         title: formData.title,
         body: formData.body,
         type: threadType,

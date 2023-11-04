@@ -33,6 +33,7 @@ export default function MessageUI({
     thread_id: string;
   };
 }) {
+  const ulRef = useRef<HTMLUListElement>(null);
   const scroll = useRef<HTMLSpanElement>(null);
   const { ref: loaderRef, inView } = useInView({
     delay: 1000,
@@ -42,20 +43,18 @@ export default function MessageUI({
   const [chatEnd, setChatEnd] = useState(false);
   const [messageList, setMessageList] = useState<Message[]>([]);
 
-  let pageYOffset = window.pageYOffset;
+  // firebase
+  const messageRef = collection(db, "threads", params.thread_id, "messages");
 
-  const scrollToBottom = () => {
-    if (!scroll || !scroll.current) return;
-    scroll.current.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToBottom = () => {};
 
   // loads new Data
   useEffect(() => {
     const fetchNewMessages = async () => {
-      const lastMessage = messageList[0];
+      const lastMessage = messageList.pop();
       if (!lastMessage || !inView) return;
       const messageQuery = query(
-        collection(db, "threads", params.thread_id, "messages"),
+        messageRef,
         orderBy("createdAt", "desc"),
         startAfter(lastMessage.createdAt),
         limit(10)
@@ -67,13 +66,10 @@ export default function MessageUI({
           fetchedMessages.push({ uid: doc.id, ...doc.data() } as Message);
         });
 
-        const sortedMessages: Message[] = fetchedMessages.sort((a, b) =>
-          a.createdAt > b.createdAt ? 1 : -1
-        );
-
-        if (sortedMessages.length < 10) setChatEnd(true);
-        pageYOffset = window.pageYOffset;
-        setMessageList(oldMessages => [...sortedMessages, ...oldMessages]);
+        if (fetchedMessages.length < 10) setChatEnd(true);
+        setMessageList(oldMessages => [
+          ...new Set([...oldMessages, ...fetchedMessages]),
+        ]);
       });
     };
     fetchNewMessages();
@@ -82,7 +78,7 @@ export default function MessageUI({
   // initially load Messages
   useEffect(() => {
     const messageQuery = query(
-      collection(db, "threads", params.thread_id, "messages"),
+      messageRef,
       orderBy("createdAt", "desc"),
       limit(10)
     );
@@ -93,33 +89,25 @@ export default function MessageUI({
         fetchedMessages.push({ uid: doc.id, ...doc.data() } as Message);
       });
 
-      const sortedMessages: Message[] = fetchedMessages.sort((a, b) =>
-        a.createdAt > b.createdAt ? 1 : -1
-      );
-
-      if (sortedMessages.length < 10) setChatEnd(true);
-      scrollToBottom();
-      pageYOffset = window.pageYOffset;
-      setMessageList(sortedMessages);
+      if (fetchedMessages.length < 10) setChatEnd(true);
+      setMessageList(fetchedMessages);
     });
     return () => unsubscribe();
   }, []);
 
   useLayoutEffect(() => {
-    console.log(pageYOffset);
-    window.scroll({ top: pageYOffset });
+    const currentMessageIndex = messageList.length - 2;
+    ulRef.current?.children[currentMessageIndex]?.scrollIntoView({
+      behavior: "smooth",
+    });
   }, [messageList]);
 
   return (
     <>
-      <ul className="flex-grow overflow-y-auto h-full">
-        {!chatEnd && (
-          <span
-            ref={loaderRef}
-            className="flex py-4 justify-center items-center w-full">
-            <AiOutlineLoading className="animate-spin" />
-          </span>
-        )}
+      <ul
+        className="flex flex-col-reverse flex-grow overflow-y-auto h-full"
+        ref={ulRef}>
+        <span ref={scroll} />
         {messageList.map(message => (
           <li
             key={message.uid}
@@ -138,7 +126,13 @@ export default function MessageUI({
             </div>
           </li>
         ))}
-        <span ref={scroll} />
+        {!chatEnd && (
+          <span
+            ref={loaderRef}
+            className="flex py-4 justify-center items-center w-full">
+            <AiOutlineLoading className="animate-spin" />
+          </span>
+        )}
       </ul>
       <MessageInputField params={params} scrollToBottom={scrollToBottom} />
     </>

@@ -17,14 +17,15 @@ export default function MessageInputField({
 }) {
   const { user } = useAuthContext();
   const [message, setMessage] = useState("");
+  const userRef = doc(db, "users", user?.uid || "");
+  const messageRef = collection(db, `threads`, params.thread_id, "messages");
 
   const handleSendMessage = async () => {
     let newMessage = message.trim();
     if (newMessage === "") return;
 
     try {
-      const userRef = doc(db, "users", user?.uid || "");
-      await addDoc(collection(db, `threads`, params.thread_id, "messages"), {
+      await addDoc(messageRef, {
         text: newMessage,
         createdAt: serverTimestamp(),
         user: userRef,

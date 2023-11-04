@@ -15,7 +15,9 @@ export default function ThreadPage({
     thread_id: string;
   };
 }) {
-  const [threadData, setThreadData] = useState<Thread>();
+  const [threadData, setThreadData] = useState<Thread | undefined | null>(
+    undefined
+  );
 
   useEffect(() => {
     async function fetchThread() {
@@ -23,14 +25,17 @@ export default function ThreadPage({
       const threadSnap = await getDoc(threadRef);
 
       if (threadSnap.exists()) {
-        const threadData = (await threadSnap.data()) as Thread;
+        const threadData = threadSnap.data() as Thread;
         setThreadData(threadData);
+      } else {
+        setThreadData(null);
       }
     }
     fetchThread();
   }, []);
 
-  if (!threadData) return <Error statusCode={404} />;
+  if (threadData === undefined) return <div>loading</div>;
+  if (threadData === null) return <Error statusCode={404} />;
   return (
     <div className="pb-[69px]">
       <ThreadLi
