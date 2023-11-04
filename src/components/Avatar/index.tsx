@@ -26,7 +26,7 @@ export default function Avatar({
           alt={alt}
           width={width}
           height={height}
-          className={className}
+          className={clsx(className, "object-cover object-center")}
           onError={() => setFailed(true)}
         />
       ) : (

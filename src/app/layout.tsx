@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: "PEER_LIFT",
 };
 
-const roboto = Roboto({ weight: "500", subsets: ["latin"] });
+const roboto = Roboto({ weight: "400", subsets: ["latin"] });
 
 export default function RootLayout({
   children,
