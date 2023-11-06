@@ -1,11 +1,21 @@
 import clsx from "clsx";
-import { memo } from "react";
 import Link from "next/link";
-import { BsBookmark, BsThreeDots, BsShare } from "react-icons/bs";
+import _debounce from "lodash/debounce";
+import { memo, useCallback, useMemo } from "react";
+import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
+import {
+  BsBookmark,
+  BsThreeDots,
+  BsShare,
+  BsBookmarkFill,
+} from "react-icons/bs";
+
+import { db } from "@/firebase/config";
+import formatTimeSince from "@/helper/timeSince";
+import { useAuthContext } from "@/context/authContext";
 
 import { Thread } from "@/types/threads";
 import { InAppLinks } from "@/types/links";
-import formatTimeSince from "@/helper/timeSince";
 
 import UserInfo from "./UserInfo";
 
@@ -18,29 +28,63 @@ const ThreadLi = memo(function ThreadLi({
   isList?: Boolean;
   className?: string;
 }) {
+  const { userData } = useAuthContext();
+  const isThreadBookMarked = !!userData?.bookmarks.some(
+    th => th.uid === thread.uid
+  );
+
+  // const debounceBookMarkThread = useCallback(
+  //   _debounce(bookMarkThread, 2000, {
+  //     leading: true,
+  //     trailing: false,
+  //   }),
+  //   []
+  // );
+
   const Wrapper = ({ children }: { children: React.ReactNode }) => {
     if (isList)
       return (
         <li
           className={clsx(
-            "border-y border-text/10 w-full text-text",
+            "border-y border-text/10 w-full text-text grid h-full p-3 gap-2",
             className
           )}>
-          <Link
-            href={`${InAppLinks.commuinity}/${thread.type}/${thread.uid}`}
-            className="grid h-full p-3 gap-2">
-            {children}
-          </Link>
+          {children}
         </li>
       );
 
     return (
       <div
-        className={clsx("border-y border-text/10 w-full text-text", className)}>
+        className={clsx(
+          "border-y border-text/10 w-full text-text grid h-full p-3 gap-2",
+          className
+        )}>
         <div className="grid h-full p-3 gap-2">{children}</div>
       </div>
     );
   };
+
+  async function bookMarkThread() {
+    if (!userData) return;
+    const userRef = doc(db, "users", userData.uid);
+    const threadRef = doc(db, "threads", thread.uid);
+
+    if (!isThreadBookMarked) {
+      await updateDoc(userRef, {
+        bookmarks: arrayUnion({
+          uid: threadRef.id,
+          ref: threadRef,
+        }),
+      });
+    } else {
+      await updateDoc(userRef, {
+        bookmarks: arrayRemove({
+          uid: threadRef.id,
+          ref: threadRef,
+        }),
+      });
+    }
+  }
 
   return (
     <Wrapper>
@@ -50,13 +94,15 @@ const ThreadLi = memo(function ThreadLi({
           {formatTimeSince(thread.createdAt.toDate())}
         </span>
       </div>
-      <div>
+      <Link href={`${InAppLinks.commuinity}/${thread.type}/${thread.uid}`}>
         <h6 className="font-bold text-sm">{thread.title}</h6>
         <span className="line-clamp-2 text-text/40 text-xs">{thread.body}</span>
-      </div>
+      </Link>
       <div className="flex gap-5">
         <BsShare />
-        <BsBookmark />
+        <button onClick={bookMarkThread}>
+          {isThreadBookMarked ? <BsBookmarkFill /> : <BsBookmark />}
+        </button>
         <BsThreeDots />
       </div>
     </Wrapper>

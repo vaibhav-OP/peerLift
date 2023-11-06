@@ -12,7 +12,7 @@ import { Interests, UserDetails } from "./types";
 const genderOptiopns: UserDetails["gender"][] = ["male", "female"];
 
 export default function RegistrationForm() {
-  const { user } = useAuthContext();
+  const { userData } = useAuthContext();
   const [selectedInterest, setSelectedInterest] = useState<Interests[]>([]);
   const [userDetails, setUserDetails] = useState<UserDetails>({
     age: 0,
@@ -43,10 +43,10 @@ export default function RegistrationForm() {
   };
 
   const handleSubmit = async () => {
-    if (!user) return;
+    if (!userData) return;
 
     try {
-      const userRef = doc(db, "users", user.uid);
+      const userRef = doc(db, "users", userData.uid);
 
       await setDoc(userRef, {
         ...userDetails,

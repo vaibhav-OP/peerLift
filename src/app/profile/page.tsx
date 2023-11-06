@@ -12,7 +12,7 @@ type CurrentSection = "My Posts" | "Friends" | "Saved";
 const currentSectionList: CurrentSection[] = ["My Posts", "Friends", "Saved"];
 
 export default function ProfilePage() {
-  const { user } = useAuthContext();
+  const { userData } = useAuthContext();
 
   const [currentSection, setCurrentSection] =
     useState<CurrentSection>("My Posts");
@@ -22,14 +22,19 @@ export default function ProfilePage() {
       <div className="bg-text text-background flex flex-col justify-center items-center h-96 gap-3">
         <ProfileHeader />
         <Avatar
-          src={user?.photoURL}
-          alt={user?.displayName || ""}
+          src={userData?.photoURL}
+          alt={userData?.displayName || ""}
           height={112}
           width={112}
           className="w-28 h-28 rounded-full"
         />
         <div className="flex gap-3">
-          <h6 className="text-3xl font-normal">{user?.displayName}</h6>
+          <input
+            type="text"
+            defaultValue={userData?.displayName}
+            maxLength={10}
+            className="bg-transparent outline-none text-center text-3xl font-normal"
+          />
           <button className="text-2xl">
             <HiPencil />
           </button>

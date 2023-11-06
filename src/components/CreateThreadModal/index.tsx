@@ -29,11 +29,8 @@ export default function CreateThreadModal({
         style={customStyleSheet}
         onRequestClose={closeModal}
         contentLabel="Create Thread Modal">
-        <div className="flex justify-between text-2xl font-bold mb-12">
-          <div className="flex gap-3">
-            <div>logo</div>
-            <h1>What’s on your mind?</h1>
-          </div>
+        <div className="flex justify-between text-2xl z-50 font-bold mb-12">
+          <h1>What’s on your mind?</h1>
           <button onClick={closeModal}>
             <AiOutlineClose />
           </button>
@@ -61,6 +58,7 @@ const customStyleSheet = {
     overflow: "hidden",
     height: "100vh",
     inset: "unset",
+    zIndex: 9999,
     boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22)",
   },
 };

@@ -9,10 +9,10 @@ import {
   where,
 } from "firebase/firestore";
 
-import { db } from "@/firebase/config";
-import { Thread, ThreadList } from "@/types/threads";
 import { useEffect, useState } from "react";
-import ThreadLi from "@/components/Threads/Li";
+import { db } from "@/firebase/config";
+import { ThreadUl } from "@/components/Threads";
+import { Thread, ThreadList } from "@/types/threads";
 
 export default function ThreadsList({ threadType }: { threadType: string }) {
   const [threadsList, setThreadsList] = useState<ThreadList>([]);
@@ -63,11 +63,5 @@ export default function ThreadsList({ threadType }: { threadType: string }) {
     return () => unsubscribe();
   }, []);
 
-  return (
-    <ul className="flex flex-col items-stretch justify-center p-4">
-      {threadsList.map((thread, index) => (
-        <ThreadLi thread={thread} key={index} />
-      ))}
-    </ul>
-  );
+  return <ThreadUl threadsList={threadsList} />;
 }

@@ -1,6 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import { DocumentReference, getDoc } from "firebase/firestore";
+import {
+  DocumentReference,
+  getDoc,
+  getDocFromCache,
+  getDocFromServer,
+} from "firebase/firestore";
 
 import { UserData } from "@/types/user";
 import Avatar from "@/components/Avatar";
@@ -10,7 +15,7 @@ export default function UserInfo({ user }: { user: DocumentReference }) {
 
   useEffect(() => {
     async function fetchUser() {
-      const userSnap = await getDoc(user);
+      const userSnap = await getDocFromServer(user);
       const userData = userSnap.data() as UserData;
 
       setUserData(userData);

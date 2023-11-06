@@ -1,13 +1,13 @@
 "use client";
 import {
-  PropsWithChildren,
-  createContext,
-  useContext,
-  useEffect,
   useState,
+  useEffect,
+  useContext,
+  createContext,
+  PropsWithChildren,
 } from "react";
-import { doc, getDoc } from "firebase/firestore";
-import { User, onAuthStateChanged } from "firebase/auth";
+import { doc, onSnapshot } from "firebase/firestore";
+import { User as FirebaseUser, onAuthStateChanged } from "firebase/auth";
 
 import { auth, db } from "@/firebase/config";
 import LoginForm from "@/components/Forms/Login";
@@ -15,36 +15,39 @@ import RegistrationForm from "@/components/Forms/Registration";
 
 import { UserData } from "@/types/user";
 
-type UserInter = UserData & User;
-
 interface AuthContextProps {
-  user: UserInter | null;
+  user: FirebaseUser | null;
+  userData: UserData | null;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
   user: null,
+  userData: null,
 });
 export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }: PropsWithChildren<{}>) => {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<UserInter | null>(null);
   const [isUserRegistered, setIsUserRegistered] = useState(true);
+  const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async newUser => {
-      if (newUser) {
-        const userRef = doc(db, "users", newUser.uid);
-        const userSnap = await getDoc(userRef);
+    const unsubscribe = onAuthStateChanged(auth, authUser => {
+      if (authUser) {
+        setUser(authUser);
 
-        if (!userSnap.exists()) {
-          setIsUserRegistered(false);
-        } else {
-          newUser = Object.assign(newUser, userSnap.data());
-        }
-
-        setUser(newUser as UserInter);
-        setLoading(false);
+        const userRef = doc(db, "users", authUser.uid);
+        const userSnapshot = onSnapshot(userRef, snapshot => {
+          if (snapshot.exists()) {
+            setUserData({ ...snapshot.data(), uid: snapshot.id } as UserData);
+            setLoading(false);
+          } else {
+            setUserData(null);
+            setIsUserRegistered(false);
+            setLoading(false);
+          }
+        });
       } else {
         setUser(null);
         setLoading(false);
@@ -57,7 +60,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren<{}>) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>
+    <AuthContext.Provider value={{ user, userData }}>
       {loading ? (
         <>loading</>
       ) : !user ? (

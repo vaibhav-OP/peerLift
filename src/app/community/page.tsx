@@ -8,10 +8,10 @@ import InterestList from "@/components/Forms/Registration/interestList";
 import { useMemo } from "react";
 
 export default function CommunityPage() {
-  const { user } = useAuthContext();
+  const { userData } = useAuthContext();
 
   const interestList = useMemo(() => {
-    const userInterests = user?.interests.sort();
+    const userInterests = userData?.interests.sort();
     const filteredInterests = InterestList.filter(
       interest => !userInterests?.includes(interest)
     );

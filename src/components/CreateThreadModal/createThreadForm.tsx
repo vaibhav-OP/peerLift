@@ -13,13 +13,13 @@ export default function CreateThreadForm({
   threadType: string;
 }) {
   const route = useRouter();
-  const { user } = useAuthContext();
+  const { userData } = useAuthContext();
   const [formData, setFormData] = useState({
     title: "",
     body: "",
   });
   const threadRef = collection(db, "threads");
-  const userRef = doc(db, "users", user?.uid || "");
+  const userRef = doc(db, "users", userData?.uid || "");
 
   const handleFormFieldOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -55,7 +55,7 @@ export default function CreateThreadForm({
         value={formData.title}
         onChange={handleFormFieldOnChange}
         required
-        className="bg-primary/80 placeholder:text-text/60 py-5 px-8 rounded-2xl outline-none"
+        className="bg-secondary placeholder:text-text/60 py-5 px-8 rounded-2xl outline-none"
       />
       <br />
       <textarea
@@ -63,12 +63,12 @@ export default function CreateThreadForm({
         placeholder="body"
         value={formData.body}
         onChange={handleFormFieldOnChange}
-        className="bg-primary/80 placeholder:text-text/60 max-h-96 py-5 px-8 rounded-2xl outline-none flex-grow"
+        className="bg-secondary placeholder:text-text/60 max-h-96 py-5 px-8 rounded-2xl outline-none flex-grow"
       />
       <br />
       <button
         type="submit"
-        className="bg-secondary text-background text-xl px-6 py-2 rounded-full">
+        className="bg-text text-background text-xl px-6 py-2 rounded-full">
         Post
       </button>
     </form>

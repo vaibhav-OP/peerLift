@@ -10,7 +10,7 @@ const config: Config = {
     colors: {
       text: "#000",
       primary: "#B70808",
-      secondary: "#6B77D4",
+      secondary: "#D9D9D9",
       background: "#fff",
       transparent: "transparent",
     },
