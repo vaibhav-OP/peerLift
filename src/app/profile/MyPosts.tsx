@@ -4,8 +4,8 @@ import { collection, doc, getDocs, query, where } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
 import { Thread } from "@/types/threads";
-import { useAuthContext } from "@/context/authContext";
 import { ThreadUl } from "@/components/Threads";
+import { useAuthContext } from "@/context/authContext";
 
 export default function MyPosts() {
   const { userData } = useAuthContext();

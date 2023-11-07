@@ -6,7 +6,9 @@ import { HiPencil } from "react-icons/hi";
 import Avatar from "@/components/Avatar";
 import { ProfileHeader } from "@/components/Header";
 import { useAuthContext } from "@/context/authContext";
+
 import MyPosts from "./MyPosts";
+import SavedThreads from "./SavedThreads";
 
 type CurrentSection = "My Posts" | "Friends" | "Saved";
 const currentSectionList: CurrentSection[] = ["My Posts", "Friends", "Saved"];
@@ -40,7 +42,7 @@ export default function ProfilePage() {
           </button>
         </div>
       </div>
-      <div>
+      <section>
         <div className="flex justify-between sm:justify-center sm:gap-16 px-8 py-5 text-lg font-semibold border-text/10 border-b">
           {currentSectionList.map(section => (
             <button
@@ -57,13 +59,13 @@ export default function ProfilePage() {
         <section>
           {
             {
-              Saved: <div>Saved</div>,
+              Saved: <SavedThreads />,
               Friends: <div>Friends</div>,
               "My Posts": <MyPosts />,
             }[currentSection]
           }
         </section>
-      </div>
+      </section>
     </>
   );
 }
