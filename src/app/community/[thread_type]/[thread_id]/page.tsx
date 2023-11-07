@@ -25,8 +25,7 @@ export default function ThreadPage({
       const threadSnap = await getDoc(threadRef);
 
       if (threadSnap.exists()) {
-        const threadData = threadSnap.data() as Thread;
-        setThreadData(threadData);
+        setThreadData({ uid: threadSnap.id, ...threadSnap.data() } as Thread);
       } else {
         setThreadData(null);
       }

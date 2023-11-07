@@ -1,7 +1,7 @@
 import clsx from "clsx";
+import { memo } from "react";
 import Link from "next/link";
 import _debounce from "lodash/debounce";
-import { memo, useCallback, useMemo } from "react";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import {
   BsBookmark,
@@ -18,6 +18,7 @@ import { Thread } from "@/types/threads";
 import { InAppLinks } from "@/types/links";
 
 import UserInfo from "./UserInfo";
+import toast from "react-hot-toast";
 
 const ThreadLi = memo(function ThreadLi({
   thread,
@@ -64,6 +65,14 @@ const ThreadLi = memo(function ThreadLi({
     );
   };
 
+  function handleCopyThreadURL() {
+    console.log(thread);
+    navigator.clipboard.writeText(
+      `${window.location.host}/community/${thread.type}/${thread.uid}`
+    );
+    toast.success("Copied Thread URL successfully.");
+  }
+
   async function bookMarkThread() {
     if (!userData) return;
     const userRef = doc(db, "users", userData.uid);
@@ -99,7 +108,9 @@ const ThreadLi = memo(function ThreadLi({
         <span className="line-clamp-2 text-text/40 text-xs">{thread.body}</span>
       </Link>
       <div className="flex gap-5">
-        <BsShare />
+        <button onClick={handleCopyThreadURL}>
+          <BsShare />
+        </button>
         <button onClick={bookMarkThread}>
           {isThreadBookMarked ? <BsBookmarkFill /> : <BsBookmark />}
         </button>
