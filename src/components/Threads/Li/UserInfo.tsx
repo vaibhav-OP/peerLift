@@ -1,11 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import {
-  DocumentReference,
-  getDoc,
-  getDocFromCache,
-  getDocFromServer,
-} from "firebase/firestore";
+import { getDocFromServer, DocumentReference } from "firebase/firestore";
 
 import { UserData } from "@/types/user";
 import Avatar from "@/components/Avatar";

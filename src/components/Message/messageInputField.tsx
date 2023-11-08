@@ -15,9 +15,9 @@ export default function MessageInputField({
   };
   scrollToBottom: () => void;
 }) {
-  const { userData } = useAuthContext();
+  const { user } = useAuthContext();
   const [message, setMessage] = useState("");
-  const userRef = doc(db, "users", userData?.uid || "");
+  const userRef = doc(db, "users", user?.uid || "");
   const messageRef = collection(db, `threads`, params.thread_id, "messages");
 
   const handleSendMessage = async () => {

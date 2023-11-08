@@ -1,14 +1,13 @@
-"use client";
-import { useAuthContext } from "@/context/authContext";
-import ThreadsYouMightLike from "@/components/ThreadsYouMightLike";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+const Test = dynamic(() => import("./test"));
 
 export default function Home() {
-  const { userData } = useAuthContext();
-
   return (
     <>
-      <h5 className="font-extrabold text-2xl">👋 Hi {userData?.displayName}</h5>
-      <ThreadsYouMightLike />
+      <Suspense fallback={<div>loading</div>}>
+        <Test />
+      </Suspense>
     </>
   );
 }

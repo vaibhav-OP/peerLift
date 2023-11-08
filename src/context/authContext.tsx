@@ -7,7 +7,7 @@ import {
   PropsWithChildren,
 } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
-import { User as FirebaseUser, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 
 import { auth, db } from "@/firebase/config";
 import LoginForm from "@/components/Forms/Login";
@@ -16,40 +16,34 @@ import RegistrationForm from "@/components/Forms/Registration";
 import { UserData } from "@/types/user";
 
 interface AuthContextProps {
-  user: FirebaseUser | null;
-  userData: UserData | null;
+  user: UserData | null;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
   user: null,
-  userData: null,
 });
 export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }: PropsWithChildren<{}>) => {
   const [loading, setLoading] = useState(true);
   const [isUserRegistered, setIsUserRegistered] = useState(true);
-  const [user, setUser] = useState<FirebaseUser | null>(null);
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const [user, setUser] = useState<UserData | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, authUser => {
       if (authUser) {
-        setUser(authUser);
-
         const userRef = doc(db, "users", authUser.uid);
         const userSnapshot = onSnapshot(userRef, snapshot => {
           if (snapshot.exists()) {
-            setUserData({ ...snapshot.data(), uid: snapshot.id } as UserData);
+            setUser({ ...snapshot.data(), uid: snapshot.id } as UserData);
             setLoading(false);
           } else {
-            setUserData(null);
+            setUser(null);
             setIsUserRegistered(false);
             setLoading(false);
           }
         });
       } else {
-        setUser(null);
         setLoading(false);
       }
     });
@@ -60,7 +54,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren<{}>) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, userData }}>
+    <AuthContext.Provider value={{ user }}>
       {loading ? (
         <>loading</>
       ) : !user ? (

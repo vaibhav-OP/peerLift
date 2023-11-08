@@ -29,8 +29,8 @@ const ThreadLi = memo(function ThreadLi({
   isList?: Boolean;
   className?: string;
 }) {
-  const { userData } = useAuthContext();
-  const isThreadBookMarked = !!userData?.bookmarks.some(
+  const { user } = useAuthContext();
+  const isThreadBookMarked = !!user?.bookmarks.some(
     th => th.uid === thread.uid
   );
 
@@ -74,8 +74,8 @@ const ThreadLi = memo(function ThreadLi({
   }
 
   async function bookMarkThread() {
-    if (!userData) return;
-    const userRef = doc(db, "users", userData.uid);
+    if (!user) return;
+    const userRef = doc(db, "users", user.uid);
     const threadRef = doc(db, "threads", thread.uid);
 
     if (!isThreadBookMarked) {

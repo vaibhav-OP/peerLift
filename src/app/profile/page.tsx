@@ -14,7 +14,7 @@ type CurrentSection = "My Posts" | "Friends" | "Saved";
 const currentSectionList: CurrentSection[] = ["My Posts", "Friends", "Saved"];
 
 export default function ProfilePage() {
-  const { userData } = useAuthContext();
+  const { user } = useAuthContext();
 
   const [currentSection, setCurrentSection] =
     useState<CurrentSection>("My Posts");
@@ -24,8 +24,8 @@ export default function ProfilePage() {
       <div className="bg-text text-background flex flex-col justify-center items-center h-96 gap-3">
         <ProfileHeader />
         <Avatar
-          src={userData?.photoURL}
-          alt={userData?.displayName || ""}
+          src={user?.photoURL}
+          alt={user?.displayName || ""}
           height={112}
           width={112}
           className="w-28 h-28 rounded-full"
@@ -33,7 +33,7 @@ export default function ProfilePage() {
         <div className="flex gap-3">
           <input
             type="text"
-            defaultValue={userData?.displayName}
+            defaultValue={user?.displayName}
             maxLength={10}
             className="bg-transparent outline-none text-center text-3xl font-normal"
           />

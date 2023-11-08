@@ -13,13 +13,13 @@ export default function CreateThreadForm({
   threadType: string;
 }) {
   const route = useRouter();
-  const { userData } = useAuthContext();
+  const { user } = useAuthContext();
   const [formData, setFormData] = useState({
     title: "",
     body: "",
   });
   const threadRef = collection(db, "threads");
-  const userRef = doc(db, "users", userData?.uid || "");
+  const userRef = doc(db, "users", user?.uid || "");
 
   const handleFormFieldOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

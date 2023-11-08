@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import ReactToastify from "@/components/ReactToastify";
 
 import Navbar from "@/components/Navbar";
-import ReactToastify from "@/components/ReactToastify";
 import { AuthContextProvider } from "@/context/authContext";
 
 import "@/style/globals.css";

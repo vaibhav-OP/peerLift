@@ -7,16 +7,16 @@ import { ThreadUl } from "@/components/Threads";
 import { useAuthContext } from "@/context/authContext";
 
 export default function SavedThreads() {
-  const { userData } = useAuthContext();
+  const { user } = useAuthContext();
   const [threadsList, setThreadsList] = useState<Thread[]>();
 
   useEffect(() => {
     async function fetchSavedThreads() {
-      if (!userData) return;
+      if (!user) return;
       const savedThreads: Thread[] = [];
 
       await Promise.all(
-        userData.bookmarks.map(async bookmark => {
+        user.bookmarks.map(async bookmark => {
           const threadRef = doc(db, "threads", bookmark.uid);
 
           const threadSnap = await getDoc(threadRef);
