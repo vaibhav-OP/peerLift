@@ -19,7 +19,9 @@ export default function Navbar() {
         <li
           className={clsx(
             "flex items-center sm:block",
-            pathname == InAppLinks.home && "text-primary"
+            (pathname === InAppLinks.home ||
+              pathname.startsWith(InAppLinks.journal)) &&
+              "text-primary"
           )}>
           <Link href={InAppLinks.home}>
             <BsFillHouseFill className="h-9 w-8 mx-auto" />
@@ -29,7 +31,7 @@ export default function Navbar() {
         <li
           className={clsx(
             "flex items-center sm:block",
-            pathname.includes(InAppLinks.commuinity) && "text-primary"
+            pathname.startsWith(InAppLinks.commuinity) && "text-primary"
           )}>
           <Link href={InAppLinks.commuinity}>
             <BsFillHouseDoorFill className="h-9 w-8 mx-auto" />
@@ -39,7 +41,7 @@ export default function Navbar() {
         <li
           className={clsx(
             "flex items-center sm:block",
-            pathname.includes(InAppLinks.messages) && "text-primary"
+            pathname.startsWith(InAppLinks.messages) && "text-primary"
           )}>
           <Link href={InAppLinks.messages}>
             <BsFillChatDotsFill className="h-9 w-8 mx-auto" />
@@ -49,7 +51,7 @@ export default function Navbar() {
         <li
           className={clsx(
             "flex items-center sm:block",
-            pathname.includes(InAppLinks.profile) && "text-primary"
+            pathname.startsWith(InAppLinks.profile) && "text-primary"
           )}>
           <Link href={InAppLinks.profile}>
             <BsFillPersonFill className="h-9 w-8 mx-auto" />
