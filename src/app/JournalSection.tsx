@@ -14,7 +14,7 @@ export default function JournalSection() {
           <span>
             <BsFillCalendarFill />
           </span>
-          <div>1/1/1111</div>
+          <div>{new Date().toLocaleDateString()}</div>
         </Link>
       </div>
       <Link
