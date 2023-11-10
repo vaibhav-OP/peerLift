@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { memo } from "react";
 import Link from "next/link";
-import _debounce from "lodash/debounce";
+import toast from "react-hot-toast";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import {
   BsBookmark,
@@ -18,7 +18,6 @@ import { Thread } from "@/types/threads";
 import { InAppLinks } from "@/types/links";
 
 import UserInfo from "./UserInfo";
-import toast from "react-hot-toast";
 
 const ThreadLi = memo(function ThreadLi({
   thread,
@@ -33,14 +32,6 @@ const ThreadLi = memo(function ThreadLi({
   const isThreadBookMarked = !!user?.bookmarks?.some(
     th => th.uid === thread.uid
   );
-
-  // const debounceBookMarkThread = useCallback(
-  //   _debounce(bookMarkThread, 2000, {
-  //     leading: true,
-  //     trailing: false,
-  //   }),
-  //   []
-  // );
 
   const Wrapper = ({ children }: { children: React.ReactNode }) => {
     if (isList)
@@ -66,11 +57,12 @@ const ThreadLi = memo(function ThreadLi({
   };
 
   function handleCopyThreadURL() {
-    console.log(thread);
     navigator.clipboard.writeText(
       `${window.location.host}/community/${thread.type}/${thread.uid}`
     );
-    toast.success("Copied Thread URL successfully.");
+    toast.success("Copied Thread URL successfully.", {
+      id: "URL-copy",
+    });
   }
 
   async function bookMarkThread() {
