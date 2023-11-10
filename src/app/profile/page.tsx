@@ -30,6 +30,7 @@ export default function ProfilePage() {
           width={112}
           className="w-28 h-28 rounded-full"
         />
+
         <div className="flex gap-3">
           <input
             type="text"

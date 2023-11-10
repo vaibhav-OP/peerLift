@@ -13,7 +13,7 @@ export default function SavedThreads() {
 
   useEffect(() => {
     async function fetchSavedThreads() {
-      if (!user) return;
+      if (!user || !user.bookmarks) return;
       const savedThreads: Thread[] = [];
 
       await Promise.all(

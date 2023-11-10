@@ -30,7 +30,7 @@ const ThreadLi = memo(function ThreadLi({
   className?: string;
 }) {
   const { user } = useAuthContext();
-  const isThreadBookMarked = !!user?.bookmarks.some(
+  const isThreadBookMarked = !!user?.bookmarks?.some(
     th => th.uid === thread.uid
   );
 

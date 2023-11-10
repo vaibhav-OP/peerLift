@@ -44,6 +44,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren<{}>) => {
           }
         });
       } else {
+        setUser(null);
         setLoading(false);
       }
     });
