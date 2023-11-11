@@ -4,7 +4,9 @@ import { useMemo, useState } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { addMonths, getDaysInMonth, startOfMonth, subMonths } from "date-fns";
 
-export default function useCalendar(markedDates: Date[]) {
+import { JournalData } from "@/types/journalData";
+
+export default function useCalendar(jounalData?: JournalData[]) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
@@ -26,7 +28,7 @@ export default function useCalendar(markedDates: Date[]) {
     const selectedDateYear = selectedDate.getFullYear();
 
     const days = [];
-    const isSelectedDate =
+    const isSelectedMonth =
       currentDateMonth === selectedDateMonth &&
       currentDateYear === selectedDateYear;
 
@@ -38,20 +40,21 @@ export default function useCalendar(markedDates: Date[]) {
     // adds elements for current month
     for (let i = 1; i <= daysInMonth; i++) {
       const buttonDate = new Date(currentDateYear, currentDateMonth, i);
-      const isMarked = !!markedDates?.find(
-        date => date.toDateString() === buttonDate.toDateString()
+      const isMarked = !!jounalData?.find(
+        journal =>
+          journal.createdAt.toDate().toDateString() ===
+          buttonDate.toDateString()
       );
+      const isSelectedDate = isSelectedMonth && selectedDateDate === i;
 
       days.push(
         <button
           key={`${i}_date`}
-          className={clsx([
-            "font-semibold text-sm h-6 w-6 flex justify-center items-center rounded-full",
-            isMarked && "bg-background/40",
-            isSelectedDate &&
-              selectedDateDate === i &&
-              "bg-background text-text",
-          ])}
+          className={clsx(
+            isSelectedDate && "bg-background text-text",
+            isMarked && !isSelectedDate && "bg-background/40",
+            "font-semibold text-sm h-6 w-6 flex justify-center items-center rounded-full"
+          )}
           onClick={() => {
             setSelectedDate(buttonDate);
           }}>
@@ -67,7 +70,7 @@ export default function useCalendar(markedDates: Date[]) {
     selectedDate: selectedDate,
     currentMonth: currentMonth,
     calender: (
-      <div className="bg-text text-background px-3 py-10 rounded-2xl text-center flex flex-col gap-5 justify-center max-w-sm">
+      <div className="bg-text text-background px-3 py-10 rounded-2xl text-center flex flex-col gap-5 justify-center w-full max-w-xl mx-auto shadow-2xl">
         <div className="flex font-bold text-base justify-between">
           <span>Select Date</span>
           <div className="flex gap-1">
