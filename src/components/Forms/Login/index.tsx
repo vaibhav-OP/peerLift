@@ -13,10 +13,11 @@ import { auth as FirebaseAuth } from "@/firebase/config";
 
 import OtpField from "./otpField";
 import PhoneField from "./phoneField";
+import toast from "react-hot-toast";
 
 export default function LoginForm() {
   const route = useRouter();
-  const [otp, setotp] = useState("");
+  const [otp, setotp] = useState<string[]>(["", "", "", "", "", ""]);
   const [phone, setPhone] = useState("");
   const [dialCode, setDialCode] = useState("+91");
   const [final, setfinal] = useState<ConfirmationResult | null>(null);
@@ -44,13 +45,11 @@ export default function LoginForm() {
   };
 
   const ValidateOtp = () => {
-    if (otp === null || final === null) return;
-    console.log(otp);
+    if (otp === null || otp.length < 6 || final === null) return;
     final
-      .confirm(otp)
-      .then(result => {
-        // success
-        alert("done");
+      .confirm(otp.join(""))
+      .then(() => {
+        toast.success("Login successfull");
         route.push(InAppLinks.home);
       })
       .catch(err => {

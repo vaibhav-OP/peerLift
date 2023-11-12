@@ -1,4 +1,7 @@
 import Image from "next/image";
+import { Dispatch, SetStateAction } from "react";
+
+import OtpInput from "@/components/OtpInput";
 
 import Wave from "../../../../public/wave-haikei.svg";
 import LockVector from "../../../../public/Lock Vector.svg";
@@ -8,8 +11,8 @@ export default function OtpField({
   setOtp,
   ValidateOtp,
 }: {
-  otp: string;
-  setOtp: (value: string) => void;
+  otp: string[];
+  setOtp: Dispatch<SetStateAction<string[]>>;
   ValidateOtp: () => void;
 }) {
   return (
@@ -29,15 +32,7 @@ export default function OtpField({
           height={104}
           className="h-[104px] w-[89px] absolute left-0 right-0 top-36 mx-auto"
         />
-        <input
-          type="number"
-          name="phone"
-          id="phone"
-          value={otp}
-          onChange={e => setOtp(e.target.value.trim())}
-          placeholder="Enter OTP"
-          className="border rounded-[20px] outline-none py-2 px-8 w-full bg-accent appearance-none"
-        />
+        <OtpInput length={6} setOtpValue={setOtp} otpValue={otp} />
         <div>
           <h6 className="font-bold mix-blend-difference text-background">
             Enter Your OTP

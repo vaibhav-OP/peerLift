@@ -45,7 +45,7 @@ export default function PhoneField({
           <span className="text-[44px]">PeerLift</span>
         </h1>
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 w-72">
         <h6 className="font-bold text-base mb-2">
           You are not alone: <br />
           Discover a Community that cares!
@@ -54,25 +54,25 @@ export default function PhoneField({
           <select
             className="bg-transparent appearance-none outline-none w-9 text-center border-r border-text"
             value={dialCode}
-            defaultValue={dialCode}
             onChange={e => setDialCode(e.target.value)}>
-            {countries.map(country => (
+            {countries.map((country, index) => (
               <option
+                key={`${index}_${country.dial_code}`}
                 value={country.dial_code}
-                title={`${country.dial_code} ${country.name}`}
-                selected={country.code === "IN" ? true : false}>
+                title={`${country.dial_code} ${country.name}`}>
                 {country.flag}
               </option>
             ))}
           </select>
           <input
-            type="number"
-            name="phone"
             id="phone"
-            value={phone}
-            onChange={e => setPhone(e.target.value.trim())}
+            name="phone"
+            type="number"
+            autoComplete="off"
             placeholder="Mobile Number"
             className="outline-none w-full appearance-none bg-transparent"
+            value={phone}
+            onChange={e => setPhone(e.target.value.trim())}
           />
         </div>
         <div>
