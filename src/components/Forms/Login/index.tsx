@@ -18,6 +18,7 @@ export default function LoginForm() {
   const route = useRouter();
   const [otp, setotp] = useState("");
   const [phone, setPhone] = useState("");
+  const [dialCode, setDialCode] = useState("+91");
   const [final, setfinal] = useState<ConfirmationResult | null>(null);
 
   const verifyButtonRef = useRef<HTMLButtonElement>(null);
@@ -30,7 +31,7 @@ export default function LoginForm() {
     if (!verify || !verifyButtonRef.current) return;
     verifyButtonRef.current.disabled = true;
 
-    signInWithPhoneNumber(FirebaseAuth, "+91" + phone, verify)
+    signInWithPhoneNumber(FirebaseAuth, dialCode + phone, verify)
       .then(result => {
         setfinal(result);
       })
@@ -64,9 +65,11 @@ export default function LoginForm() {
         <OtpField ValidateOtp={ValidateOtp} setOtp={setotp} otp={otp} />
       ) : (
         <PhoneField
-          setPhone={setPhone}
           phone={phone}
+          dialCode={dialCode}
           signin={signin}
+          setPhone={setPhone}
+          setDialCode={setDialCode}
           verifyButtonRef={verifyButtonRef}
         />
       )}

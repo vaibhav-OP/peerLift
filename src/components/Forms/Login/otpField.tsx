@@ -43,13 +43,9 @@ export default function OtpField({
             Enter Your OTP
           </h6>
           <div>
-            <span className="mix-blend- text-background">
-              Kindly wait a few seconds for your
-            </span>
+            <span>Kindly wait a few seconds for your</span>
             <br />
-            <span className="mix-blend-difference text-background">
-              OTP in the given mobile number
-            </span>
+            <span>OTP in the given mobile number</span>
           </div>
         </div>
         <button
