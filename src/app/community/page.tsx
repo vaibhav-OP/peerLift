@@ -11,7 +11,7 @@ export default function CommunityPage() {
   const { user } = useAuthContext();
 
   const interestList = useMemo(() => {
-    const userInterests = user?.interests.sort();
+    const userInterests = user?.interests?.sort();
     const filteredInterests = InterestList.filter(
       interest => !userInterests?.includes(interest)
     );

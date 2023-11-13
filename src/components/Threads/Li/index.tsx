@@ -29,9 +29,7 @@ const ThreadLi = memo(function ThreadLi({
   className?: string;
 }) {
   const { user } = useAuthContext();
-  const isThreadBookMarked = !!user?.bookmarks?.some(
-    th => th.uid === thread.uid
-  );
+  const isThreadBookMarked = !!user?.bookmarks?.some(uid => uid === thread.uid);
 
   const Wrapper = ({ children }: { children: React.ReactNode }) => {
     if (isList)
@@ -68,21 +66,14 @@ const ThreadLi = memo(function ThreadLi({
   async function bookMarkThread() {
     if (!user) return;
     const userRef = doc(db, "users", user.uid);
-    const threadRef = doc(db, "threads", thread.uid);
 
     if (!isThreadBookMarked) {
       await updateDoc(userRef, {
-        bookmarks: arrayUnion({
-          uid: threadRef.id,
-          ref: threadRef,
-        }),
+        bookmarks: arrayUnion(thread.uid),
       });
     } else {
       await updateDoc(userRef, {
-        bookmarks: arrayRemove({
-          uid: threadRef.id,
-          ref: threadRef,
-        }),
+        bookmarks: arrayRemove(thread.uid),
       });
     }
   }

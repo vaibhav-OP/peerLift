@@ -18,7 +18,7 @@ export default function SavedThreads() {
 
       await Promise.all(
         user.bookmarks.map(async bookmark => {
-          const threadRef = doc(db, "threads", bookmark.uid);
+          const threadRef = doc(db, "threads", bookmark);
 
           const threadSnap = await getDoc(threadRef);
           if (!threadSnap.exists()) return;

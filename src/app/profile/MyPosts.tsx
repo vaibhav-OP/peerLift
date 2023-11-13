@@ -14,10 +14,10 @@ export default function MyPosts() {
   useEffect(() => {
     async function fetchThreads() {
       if (!user) return;
-      const userRef = doc(db, "users", user?.uid);
+
       const threadQuery = query(
         collection(db, "threads"),
-        where("user", "==", userRef)
+        where("user", "==", user.uid)
       );
 
       const threadSnap = await getDocs(threadQuery);

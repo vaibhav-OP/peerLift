@@ -22,7 +22,7 @@ export default function ThreadsList({ threadType }: { threadType: string }) {
       collection(db, "threads"),
       orderBy("createdAt"),
       limit(25),
-      where("type", "==", threadType)
+      where("type", "==", decodeURI(threadType))
     );
 
     const unsubscribe = onSnapshot(threadQuery, snapshot => {

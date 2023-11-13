@@ -5,7 +5,6 @@ import { Roboto } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import ReactToastify from "@/components/ReactToastify";
 import { AuthContextProvider } from "@/context/authContext";
-import InitializeChatroom from "@/components/Modals/InitializeChatroom";
 
 import "@/style/globals.css";
 
@@ -34,7 +33,6 @@ export default function RootLayout({
             {children}
           </main>
           <Navbar />
-          <InitializeChatroom />
         </AuthContextProvider>
       </body>
     </html>

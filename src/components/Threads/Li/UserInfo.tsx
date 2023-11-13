@@ -1,16 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getDocFromServer, DocumentReference } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 import { UserData } from "@/types/user";
 import Avatar from "@/components/Avatar";
+import { db } from "@/firebase/config";
 
-export default function UserInfo({ user }: { user: DocumentReference }) {
+export default function UserInfo({ user }: { user: string }) {
   const [userData, setUserData] = useState<UserData>();
 
   useEffect(() => {
     async function fetchUser() {
-      const userSnap = await getDocFromServer(user);
+      const userRef = doc(db, "users", user);
+      const userSnap = await getDoc(userRef);
       const userData = userSnap.data() as UserData;
 
       setUserData(userData);

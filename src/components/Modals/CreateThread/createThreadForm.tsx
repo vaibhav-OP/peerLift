@@ -19,7 +19,6 @@ export default function CreateThreadForm({
     body: "",
   });
   const threadRef = collection(db, "threads");
-  const userRef = doc(db, "users", user?.uid || "");
 
   const handleFormFieldOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -36,7 +35,7 @@ export default function CreateThreadForm({
         body: formData.body,
         type: threadType,
         createdAt: serverTimestamp(),
-        user: userRef,
+        user: user?.uid,
       });
 
       route.push(`${InAppLinks.commuinity}/${threadType}/${newThread.id}`);
