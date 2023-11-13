@@ -1,11 +1,11 @@
 "use client";
 import Link from "next/link";
+import { useMemo } from "react";
 
 import { InAppLinks } from "@/types/links";
 import { LogoHeader } from "@/components/Header";
 import { useAuthContext } from "@/context/authContext";
 import InterestList from "@/components/Forms/Registration/interestList";
-import { useMemo } from "react";
 
 export default function CommunityPage() {
   const { user } = useAuthContext();

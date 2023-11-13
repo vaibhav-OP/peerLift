@@ -1,4 +1,5 @@
-import CreateThreadModal from "@/components/CreateThreadModal";
+import CreateThreadModal from "@/components/Modals/CreateThread";
+
 import ThreadsList from "./threadsList";
 
 export default async function CommunityThreadsPage({

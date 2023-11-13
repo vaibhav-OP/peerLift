@@ -1,10 +1,11 @@
 import clsx from "clsx";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import ReactToastify from "@/components/ReactToastify";
 
 import Navbar from "@/components/Navbar";
+import ReactToastify from "@/components/ReactToastify";
 import { AuthContextProvider } from "@/context/authContext";
+import InitializeChatroom from "@/components/Modals/InitializeChatroom";
 
 import "@/style/globals.css";
 
@@ -29,8 +30,11 @@ export default function RootLayout({
         )}>
         <ReactToastify />
         <AuthContextProvider>
-          <main className="pb-20">{children}</main>
+          <main className="pb-20" id="app">
+            {children}
+          </main>
           <Navbar />
+          <InitializeChatroom />
         </AuthContextProvider>
       </body>
     </html>

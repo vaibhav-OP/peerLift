@@ -6,7 +6,7 @@ import { AiOutlineLeft } from "react-icons/ai";
 export default function TextHeader({ heading }: { heading: string }) {
   const route = useRouter();
   return (
-    <header className="py-5 px-5 sm:px-8 sticky top-0 left-0 bg-background z-40">
+    <header className="py-5 px-5 sm:px-8 text-lg sticky top-0 left-0 bg-background z-40">
       <div className="flex gap-3 items-center text-text font-bold text-base">
         <button onClick={route.back}>
           <AiOutlineLeft className="text-2xl" />

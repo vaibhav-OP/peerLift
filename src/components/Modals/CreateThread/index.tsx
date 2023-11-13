@@ -1,10 +1,11 @@
 "use client";
 import Modal from "react-modal";
 import { useState } from "react";
-import CreateThreadForm from "./createThreadForm";
-
+import dynamic from "next/dynamic";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsPlusCircleFill } from "react-icons/bs";
+
+const CreateThreadForm = dynamic(() => import("./createThreadForm"));
 
 export default function CreateThreadModal({
   threadtype,
@@ -26,7 +27,7 @@ export default function CreateThreadModal({
       <Modal
         ariaHideApp={true}
         isOpen={modalIsOpen}
-        style={customStyleSheet}
+        style={customModalStyleSheet}
         onRequestClose={closeModal}
         contentLabel="Create Thread Modal">
         <div className="flex justify-between text-2xl z-50 font-bold mb-12">
@@ -48,7 +49,7 @@ export default function CreateThreadModal({
   );
 }
 
-const customStyleSheet = {
+export const customModalStyleSheet = {
   content: {
     padding: "26px",
     margin: "auto",
