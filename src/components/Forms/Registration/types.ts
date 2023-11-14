@@ -1,7 +1,7 @@
 export type UserDetails = {
-  displayName: string;
-  age: number;
   bio: string;
+  age: Date;
+  displayName: string;
   gender: "male" | "female";
 };
 

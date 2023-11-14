@@ -11,7 +11,13 @@ import {
 
 import { db } from "@/firebase/config";
 
-const initializeChatroom = async (senderUid: string, receiverUid: string) => {
+/**
+ * Fetches or Creates chatroom for the members and returns the document reference.
+ * @param senderUid sender's uid
+ * @param receiverUid receiver's uid
+ * @returns document reference of the chat
+ */
+const getChatroom = async (senderUid: string, receiverUid: string) => {
   const members = [senderUid, receiverUid];
   members.sort();
 
@@ -25,14 +31,14 @@ const initializeChatroom = async (senderUid: string, receiverUid: string) => {
   const chatroomSnapshot = await getDocs(chatroomQuery);
 
   if (!chatroomSnapshot.empty) {
-    return chatroomSnapshot.docs[0].id;
+    return chatroomSnapshot.docs[0].ref;
   } else {
     const chatroom = await addDoc(chatroomRef, {
       createdAt: serverTimestamp(),
       members: members,
     });
-    return chatroom.id;
+    return chatroom;
   }
 };
 
-export { initializeChatroom };
+export { getChatroom };

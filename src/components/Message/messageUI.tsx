@@ -23,7 +23,7 @@ type Message = {
   uid: string;
   text: string;
   createdAt: Timestamp;
-  user: DocumentReference;
+  user: string;
 };
 
 export default function MessageUI({
