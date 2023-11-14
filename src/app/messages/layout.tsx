@@ -1,5 +1,5 @@
 import { TextHeader } from "@/components/Header";
-import InboxList from "./InboxList";
+import { InboxList } from "@/components/Chatroom";
 
 export default function MessageLayout({
   children,
@@ -9,9 +9,9 @@ export default function MessageLayout({
   return (
     <>
       <TextHeader heading="Messages" />
-      <div className="flex sm:stac">
+      <div className="flex h-full relative overflow-hidden">
         <InboxList />
-        <div className="flex-grow">{children}</div>
+        <div className="flex-grow relative flex">{children}</div>
       </div>
     </>
   );

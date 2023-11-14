@@ -3,13 +3,12 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import {
+  limit,
   query,
   orderBy,
   Timestamp,
   collection,
   onSnapshot,
-  DocumentReference,
-  limit,
   startAfter,
 } from "firebase/firestore";
 
@@ -18,8 +17,9 @@ import formatTimeSince from "@/helper/timeSince";
 import UserInfo from "../Threads/Li/UserInfo";
 import { MessageInputField } from ".";
 import { AiOutlineLoading } from "react-icons/ai";
+import MessageLI from "./messageLI";
 
-type Message = {
+export type Message = {
   uid: string;
   text: string;
   createdAt: Timestamp;
@@ -109,22 +109,7 @@ export default function MessageUI({
         ref={ulRef}>
         <span ref={scroll} />
         {messageList.map(message => (
-          <li
-            key={message.uid}
-            className="border-b py-3 px-6 flex border-text/10">
-            <div className="flex-grow">
-              <div className="flex gap-3">
-                <UserInfo user={message.user} />
-                <span className="text-text/40">
-                  {formatTimeSince(message.createdAt?.toDate() || new Date())}
-                </span>
-              </div>
-              <div className="font-normal">{message.text}</div>
-            </div>
-            <div>
-              <BiDotsHorizontalRounded className="text-lg font-bold" />
-            </div>
-          </li>
+          <MessageLI message={message} key={message.uid} />
         ))}
         {!chatEnd && (
           <span

@@ -29,7 +29,7 @@ export default function RootLayout({
         )}>
         <ReactToastify />
         <AuthContextProvider>
-          <main className="pb-20" id="app">
+          <main className="pb-20 h-[calc(100%_-_80px)]" id="app">
             {children}
           </main>
           <Navbar />
