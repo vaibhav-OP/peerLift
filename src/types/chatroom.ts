@@ -4,5 +4,10 @@ export type Chatroom = {
   uid: string;
   members: string[];
   createdAt: Timestamp;
-  lastMessage?: string;
+  lastMessage?: {
+    text: string;
+    createdAt: Timestamp;
+    createdBy: string;
+    readBy?: string[];
+  };
 };

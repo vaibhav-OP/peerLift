@@ -13,12 +13,16 @@ export default function UserInfo({ user }: { user: string }) {
     async function fetchUser() {
       const userRef = doc(db, "users", user);
       const userSnap = await getDoc(userRef);
-      const userData = userSnap.data() as UserData;
+      const fetchedUserData = {
+        uid: userSnap.id,
+        ...userSnap.data(),
+      } as UserData;
 
-      setUserData(userData);
+      setUserData(fetchedUserData);
     }
     fetchUser();
   }, []);
+
   return (
     <>
       <Avatar
@@ -26,7 +30,7 @@ export default function UserInfo({ user }: { user: string }) {
         width={28}
         height={28}
         className="w-7 h-7 object-cover object-center rounded-full"
-        src={userData?.photoURL}
+        src={userData?.photoURL as string}
       />
       <div>{userData?.displayName}</div>
     </>

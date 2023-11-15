@@ -3,12 +3,15 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import {
+  arrayUnion,
   collection,
+  doc,
   limit,
   onSnapshot,
   orderBy,
   query,
   startAfter,
+  updateDoc,
 } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
@@ -17,6 +20,7 @@ import { Message } from "@/components/Message/messageUI";
 import { useMobileNavigation } from "@/context/mobileNavigation";
 
 import ChatMessageInputField from "./MessageInput";
+import { useAuthContext } from "@/context/authContext";
 
 export default function ChatPage({
   params,
@@ -25,18 +29,21 @@ export default function ChatPage({
     chat_id: string;
   };
 }) {
+  const { user } = useAuthContext();
   const { closeMobileNav } = useMobileNavigation();
+
   const [messageList, setMessageList] = useState<Message[]>([]);
+  const [allMessagesFetched, setAllMessagesFetched] = useState(false);
 
   const bottomElementRef = useRef<HTMLSpanElement>(null);
   const { ref: loadElementRef, inView } = useInView({
-    delay: 1000,
     threshold: 1,
     initialInView: true,
   });
 
   useEffect(() => {
-    const messagesRef = collection(db, "chatrooms", params.chat_id, "messages");
+    const chatroomRef = doc(db, "chatrooms", params.chat_id);
+    const messagesRef = collection(chatroomRef, "messages");
     const messagesQuery = query(
       messagesRef,
       orderBy("createdAt", "desc"),
@@ -44,6 +51,7 @@ export default function ChatPage({
     );
 
     const unsubscribe = onSnapshot(messagesQuery, async querySnapshot => {
+      if (querySnapshot.metadata.hasPendingWrites) return;
       const updatedMessageList: Message[] = [];
 
       await Promise.all(
@@ -54,6 +62,9 @@ export default function ChatPage({
       );
 
       setMessageList(updatedMessageList);
+      updateDoc(chatroomRef, {
+        "lastMessage.readBy": arrayUnion(user?.uid as string),
+      });
       scrollToBottom();
     });
 
@@ -65,7 +76,7 @@ export default function ChatPage({
   }, [params.chat_id]);
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || allMessagesFetched) return;
     const messagesRef = collection(db, "chatrooms", params.chat_id, "messages");
 
     const startAfterMsg =
@@ -81,6 +92,7 @@ export default function ChatPage({
     );
 
     const unsubscribe = onSnapshot(messagesQuery, async querySnapshot => {
+      if (querySnapshot.metadata.hasPendingWrites) return;
       const updatedMessageList: Message[] = [];
 
       await Promise.all(
@@ -94,6 +106,7 @@ export default function ChatPage({
         ...prevMessageList,
         ...updatedMessageList,
       ]);
+      if (querySnapshot.empty && startAfterMsg) setAllMessagesFetched(true);
     });
 
     return () => {
@@ -115,11 +128,14 @@ export default function ChatPage({
         {messageList.map(message => (
           <MessageLI key={message.uid} message={message} />
         ))}
-        <span
-          ref={loadElementRef}
-          className="flex py-4 justify-center items-center w-full">
-          <AiOutlineLoading className="animate-spin" />
-        </span>
+
+        {!allMessagesFetched && (
+          <span
+            ref={loadElementRef}
+            className="flex py-4 justify-center items-center w-full">
+            <AiOutlineLoading className="animate-spin" />
+          </span>
+        )}
       </ul>
       <ChatMessageInputField
         chatId={params.chat_id}

@@ -1,5 +1,7 @@
 import clsx from "clsx";
 import Link from "next/link";
+import { useMemo } from "react";
+import { GoDotFill } from "react-icons/go";
 
 import { Chatroom } from "@/types/chatroom";
 import { InAppLinks } from "@/types/links";
@@ -17,25 +19,48 @@ export default function InboxItem({
   const { user } = useAuthContext();
 
   const receiverUid = chatroom.members.find(member => member != user?.uid);
-
   if (!receiverUid) return <div></div>;
+
+  const hasReadMsg = useMemo(
+    () => chatroom.lastMessage?.readBy?.includes(user?.uid!),
+    [chatroom]
+  );
+
   return (
-    <li className={clsx("border-b py-1 border-text/10", className)}>
-      <Link href={`${InAppLinks.messages}/${chatroom.uid}`} className="px-6">
-        <div className="flex justify-between items-center text-xs font-bold">
-          <div className="flex gap-3 items-center">
-            <UserInfo user={receiverUid} />
+    <li className={clsx("border-b py-3 border-text/10 px-4", className)}>
+      <Link href={`${InAppLinks.messages}/${chatroom.uid}`} className="flex">
+        <div className="flex-grow">
+          <div className="flex gap-3 mb-1 items-center text-xs font-bold">
+            <div className="flex gap-3 items-center">
+              <UserInfo user={receiverUid} />
+            </div>
+            <span className="text-text/40">
+              {chatroom.lastMessage &&
+                formatTimeSince(chatroom?.lastMessage?.createdAt.toDate())}
+            </span>
           </div>
-          <span className="text-text/40">
-            {formatTimeSince(chatroom?.createdAt.toDate())}
-          </span>
+          <div
+            className={clsx(
+              "line-clamp-1 text-xs",
+              !hasReadMsg && "font-semibold"
+            )}>
+            <div>
+              {!!(chatroom.lastMessage?.createdBy === user?.uid) && (
+                <span className="mr-1">You:</span>
+              )}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: chatroom?.lastMessage?.text as String,
+                }}
+              />
+            </div>
+          </div>
         </div>
-        <div
-          className="line-clamp-3 text-xs"
-          dangerouslySetInnerHTML={{
-            __html: chatroom?.lastMessage || "Nothing here.",
-          }}
-        />
+        {!hasReadMsg && (
+          <span className="h-fit my-auto text-primary">
+            <GoDotFill />
+          </span>
+        )}
       </Link>
     </li>
   );

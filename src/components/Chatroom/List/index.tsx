@@ -1,4 +1,5 @@
 "use client";
+import clsx from "clsx";
 import { useEffect, useState } from "react";
 import {
   collection,
@@ -14,7 +15,6 @@ import { useAuthContext } from "@/context/authContext";
 import { useMobileNavigation } from "@/context/mobileNavigation";
 
 import InboxItem from "./InboxItem";
-import clsx from "clsx";
 
 export default function InboxList() {
   const { user } = useAuthContext();
@@ -27,11 +27,12 @@ export default function InboxList() {
     const chatroomRef = collection(db, "chatrooms");
     const chatroomQuery = query(
       chatroomRef,
-      orderBy("createdAt"),
+      orderBy("lastMessage.createdAt", "desc"),
       where("members", "array-contains", user.uid)
     );
 
     const unsubscribe = onSnapshot(chatroomQuery, async QuerySnapshot => {
+      if (QuerySnapshot.metadata.hasPendingWrites) return;
       const updatedChatroomList: Chatroom[] = [];
 
       await Promise.all(
@@ -52,7 +53,7 @@ export default function InboxList() {
   return (
     <ul
       className={clsx(
-        "px-5 bg-background w-full h-full sm:max-w-xs absolute z-10  sm:relative  transition-transform sm:border-r border-text/10",
+        "bg-background w-full h-full sm:max-w-xs absolute z-10  sm:relative  transition-transform sm:border-r border-text/10",
         !isOpen && "-translate-x-full sm:translate-x-0"
       )}>
       {chatroomList.map(chatroom => (

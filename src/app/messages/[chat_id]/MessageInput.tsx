@@ -1,6 +1,13 @@
 import { useAuthContext } from "@/context/authContext";
 import { db } from "@/firebase/config";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { Chatroom } from "@/types/chatroom";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { useState } from "react";
 import { BiUpArrowAlt } from "react-icons/bi";
 
@@ -13,7 +20,8 @@ export default function ChatMessageInputField({
 }) {
   const { user } = useAuthContext();
   const [message, setMessage] = useState("");
-  const messageRef = collection(db, `chatrooms`, chatId, "messages");
+  const chatroomRef = doc(db, `chatrooms`, chatId);
+  const messageRef = collection(chatroomRef, "messages");
 
   const handleSendMessage = async () => {
     if (!user) return;
@@ -25,6 +33,14 @@ export default function ChatMessageInputField({
         text: newMessage,
         createdAt: serverTimestamp(),
         user: user.uid,
+      });
+
+      await updateDoc(chatroomRef, {
+        lastMessage: {
+          text: newMessage,
+          createdAt: serverTimestamp(),
+          createdBy: user.uid,
+        } as Chatroom["lastMessage"],
       });
 
       setMessage("");
