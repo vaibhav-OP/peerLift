@@ -46,7 +46,7 @@ const ThreadLi = memo(function ThreadLi({
     return (
       <div
         className={clsx(
-          "border-y border-text/10 w-full text-text grid h-full p-3 gap-2",
+          "border-y border-text/10 w-full text-text grid p-3 gap-2",
           className
         )}>
         <div className="grid h-full p-3 gap-2">{children}</div>

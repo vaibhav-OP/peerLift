@@ -8,7 +8,9 @@ export default function ThreadLayout({
   return (
     <>
       <TextHeader heading="test" />
-      {children}
+      <div className="relative h-full overflow-x-auto flex flex-col">
+        {children}
+      </div>
     </>
   );
 }

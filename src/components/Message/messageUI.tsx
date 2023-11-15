@@ -1,8 +1,7 @@
 "use client";
 import { AiOutlineLoading } from "react-icons/ai";
 import { useInView } from "react-intersection-observer";
-import { BiDotsHorizontalRounded } from "react-icons/bi";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   limit,
   query,
@@ -33,84 +32,97 @@ export default function MessageUI({
   };
 }) {
   const ulRef = useRef<HTMLUListElement>(null);
-  const scroll = useRef<HTMLSpanElement>(null);
+  const bottomElementRef = useRef<HTMLSpanElement>(null);
   const { ref: loaderRef, inView } = useInView({
-    delay: 1000,
     threshold: 1,
     initialInView: true,
   });
-  const [chatEnd, setChatEnd] = useState(false);
+
   const [messageList, setMessageList] = useState<Message[]>([]);
+  const [allMessagesFetched, setAllMessagesFetched] = useState(false);
 
-  // firebase
-  const messageRef = collection(db, "threads", params.thread_id, "messages");
-
-  const scrollToBottom = () => {};
-
-  // loads new Data
   useEffect(() => {
-    const fetchNewMessages = async () => {
-      const lastMessage = messageList.pop();
-      if (!lastMessage || !inView) return;
-      const messageQuery = query(
-        messageRef,
-        orderBy("createdAt", "desc"),
-        startAfter(lastMessage.createdAt),
-        limit(10)
+    if (allMessagesFetched || !inView) return;
+
+    const messageRef = collection(db, "threads", params.thread_id, "messages");
+    const startAfterMsg =
+      messageList.length > 0
+        ? messageList[messageList.length - 1].createdAt
+        : null;
+
+    const messageQuery = query(
+      messageRef,
+      orderBy("createdAt", "desc"),
+      startAfter(startAfterMsg),
+      limit(15)
+    );
+
+    const unsubscribe = onSnapshot(messageQuery, async QuerySnapshot => {
+      if (QuerySnapshot.metadata.hasPendingWrites) return;
+      const updatedMessageList: Message[] = [];
+
+      await Promise.all(
+        QuerySnapshot.docs.map(doc => {
+          const messageData = { uid: doc.id, ...doc.data() } as Message;
+          updatedMessageList.push(messageData);
+        })
       );
 
-      onSnapshot(messageQuery, QuerySnapshot => {
-        const fetchedMessages: Message[] = [];
-        QuerySnapshot.forEach(doc => {
-          fetchedMessages.push({ uid: doc.id, ...doc.data() } as Message);
-        });
+      setMessageList(prevMessageList => [
+        ...prevMessageList,
+        ...updatedMessageList,
+      ]);
+      if (QuerySnapshot.empty && startAfterMsg) setAllMessagesFetched(true);
+    });
 
-        if (fetchedMessages.length < 10) setChatEnd(true);
-        setMessageList(oldMessages => [
-          ...new Set([...oldMessages, ...fetchedMessages]),
-        ]);
-      });
+    return () => {
+      unsubscribe();
     };
-    fetchNewMessages();
   }, [inView]);
 
   // initially load Messages
   useEffect(() => {
+    const messageRef = collection(db, "threads", params.thread_id, "messages");
     const messageQuery = query(
       messageRef,
       orderBy("createdAt", "desc"),
-      limit(10)
+      limit(15)
     );
 
     const unsubscribe = onSnapshot(messageQuery, QuerySnapshot => {
+      if (QuerySnapshot.metadata.hasPendingWrites) return;
+
       const fetchedMessages: Message[] = [];
+
       QuerySnapshot.forEach(doc => {
         fetchedMessages.push({ uid: doc.id, ...doc.data() } as Message);
       });
 
-      if (fetchedMessages.length < 10) setChatEnd(true);
       setMessageList(fetchedMessages);
+      scrollToBottom();
     });
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
-  useLayoutEffect(() => {
-    const currentMessageIndex = messageList.length - 2;
-    ulRef.current?.children[currentMessageIndex]?.scrollIntoView({
+  const scrollToBottom = () => {
+    if (!bottomElementRef.current) return;
+    bottomElementRef.current.scrollIntoView({
       behavior: "smooth",
     });
-  }, [messageList]);
+  };
 
   return (
     <>
       <ul
-        className="flex flex-col-reverse flex-grow overflow-y-auto h-full"
+        className="flex flex-col-reverse h-fit max-h-full mt-auto flex-grow overflow-y-auto pb-[69px] scrollbar-thin scrollbar-thumb-text/40"
         ref={ulRef}>
-        <span ref={scroll} />
+        <span ref={bottomElementRef} />
         {messageList.map(message => (
           <MessageLI message={message} key={message.uid} />
         ))}
-        {!chatEnd && (
+        {!allMessagesFetched && (
           <span
             ref={loaderRef}
             className="flex py-4 justify-center items-center w-full">

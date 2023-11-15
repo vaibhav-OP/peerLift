@@ -36,13 +36,13 @@ export default function ThreadPage({
   if (threadData === undefined) return <div>loading</div>;
   if (threadData === null) return <Error statusCode={404} />;
   return (
-    <div className="pb-[69px]">
+    <>
       <ThreadLi
         isList={false}
         thread={threadData}
-        className="sticky top-16 left-0 bg-background z-10"
+        className="top-16 left-0 bg-background z-10"
       />
       <MessageUI params={params} />
-    </div>
+    </>
   );
 }
