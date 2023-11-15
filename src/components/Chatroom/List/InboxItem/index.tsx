@@ -21,10 +21,7 @@ export default function InboxItem({
   const receiverUid = chatroom.members.find(member => member != user?.uid);
   if (!receiverUid) return <div></div>;
 
-  const hasReadMsg = useMemo(
-    () => chatroom.lastMessage?.readBy?.includes(user?.uid!),
-    [chatroom, user?.uid]
-  );
+  const hasReadMsg = chatroom.lastMessage?.readBy?.includes(user?.uid as string)
 
   return (
     <li className={clsx("border-b py-3 border-text/10 px-4", className)}>
