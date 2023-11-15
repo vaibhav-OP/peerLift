@@ -23,7 +23,7 @@ export default function InboxItem({
 
   const hasReadMsg = useMemo(
     () => chatroom.lastMessage?.readBy?.includes(user?.uid!),
-    [chatroom]
+    [chatroom, user?.uid]
   );
 
   return (
