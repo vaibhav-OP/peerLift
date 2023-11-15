@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { BiUpArrowAlt } from "react-icons/bi";
-import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
 import { useAuthContext } from "@/context/authContext";

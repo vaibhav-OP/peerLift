@@ -11,11 +11,14 @@ import {
 import { db } from "@/firebase/config";
 import { Chatroom } from "@/types/chatroom";
 import { useAuthContext } from "@/context/authContext";
+import { useMobileNavigation } from "@/context/mobileNavigation";
 
 import InboxItem from "./InboxItem";
+import clsx from "clsx";
 
 export default function InboxList() {
   const { user } = useAuthContext();
+  const { isOpen } = useMobileNavigation();
 
   const [chatroomList, setChatroomList] = useState<Chatroom[]>([]);
 
@@ -47,12 +50,14 @@ export default function InboxList() {
   }, [user]);
 
   return (
-    <div className="w-full h-full bg-background sm:max-w-xs absolute z-10  sm:relative  transition-transform">
-      <ul className="px-5 bg-background">
-        {chatroomList.map(chatroom => (
-          <InboxItem key={chatroom.uid} chatroom={chatroom} />
-        ))}
-      </ul>
-    </div>
+    <ul
+      className={clsx(
+        "px-5 bg-background w-full h-full sm:max-w-xs absolute z-10  sm:relative  transition-transform sm:border-r border-text/10",
+        !isOpen && "-translate-x-full sm:translate-x-0"
+      )}>
+      {chatroomList.map(chatroom => (
+        <InboxItem key={chatroom.uid} chatroom={chatroom} />
+      ))}
+    </ul>
   );
 }

@@ -1,4 +1,5 @@
+import MessageLI from "./MessageLI";
 import MessageUI from "./messageUI";
 import MessageInputField from "./messageInputField";
 
-export { MessageUI, MessageInputField };
+export { MessageLI, MessageUI, MessageInputField };

@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { AiOutlineLoading } from "react-icons/ai";
 import { useInView } from "react-intersection-observer";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   limit,
   query,
@@ -13,11 +14,9 @@ import {
 } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
-import formatTimeSince from "@/helper/timeSince";
-import UserInfo from "../Threads/Li/UserInfo";
-import { MessageInputField } from ".";
-import { AiOutlineLoading } from "react-icons/ai";
-import MessageLI from "./messageLI";
+
+import MessageLI from "./MessageLI";
+import { MessageInputField } from "./";
 
 export type Message = {
   uid: string;

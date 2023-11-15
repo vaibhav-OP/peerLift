@@ -1,5 +1,6 @@
 import { TextHeader } from "@/components/Header";
 import { InboxList } from "@/components/Chatroom";
+import { MobileNavigationContextProvider } from "@/context/mobileNavigation";
 
 export default function MessageLayout({
   children,
@@ -10,8 +11,10 @@ export default function MessageLayout({
     <>
       <TextHeader heading="Messages" />
       <div className="flex h-full relative overflow-hidden">
-        <InboxList />
-        <div className="flex-grow relative flex">{children}</div>
+        <MobileNavigationContextProvider>
+          <InboxList />
+          <div className="flex-grow relative flex">{children}</div>
+        </MobileNavigationContextProvider>
       </div>
     </>
   );
