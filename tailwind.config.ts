@@ -10,9 +10,11 @@ const config: Config = {
   theme: {
     colors: {
       text: "#000",
+      grey: "#292929",
+      green: "#11A04B",
       primary: "#B70808",
-      secondary: "#D7D5FC",
       background: "#fff",
+      secondary: "#D7D5FC",
       transparent: "transparent",
     },
     extend: {

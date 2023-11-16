@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 
+import { db } from "@/firebase/config";
 import { UserData } from "@/types/user";
 import Avatar from "@/components/Avatar";
-import { db } from "@/firebase/config";
 
 export default function UserInfo({ user }: { user: string }) {
   const [userData, setUserData] = useState<UserData>();

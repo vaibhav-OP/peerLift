@@ -1,13 +1,12 @@
 import clsx from "clsx";
 import Link from "next/link";
-import { useMemo } from "react";
 import { GoDotFill } from "react-icons/go";
 
 import { Chatroom } from "@/types/chatroom";
 import { InAppLinks } from "@/types/links";
 import formatTimeSince from "@/helper/timeSince";
 import { useAuthContext } from "@/context/authContext";
-import UserInfo from "@/components/Threads/Li/UserInfo";
+import UserInfo from "@/components/UserInfo";
 
 export default function InboxItem({
   chatroom,
@@ -21,7 +20,9 @@ export default function InboxItem({
   const receiverUid = chatroom.members.find(member => member != user?.uid);
   if (!receiverUid) return <div></div>;
 
-  const hasReadMsg = chatroom.lastMessage?.readBy?.includes(user?.uid as string)
+  const hasReadMsg = chatroom.lastMessage?.readBy?.includes(
+    user?.uid as string
+  );
 
   return (
     <li className={clsx("border-b py-3 border-text/10 px-4", className)}>

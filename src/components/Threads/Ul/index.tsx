@@ -1,4 +1,5 @@
 import clsx from "clsx";
+
 import { ThreadLi } from "..";
 import { Thread } from "@/types/threads";
 

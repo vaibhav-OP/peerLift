@@ -12,7 +12,7 @@ export default function Avatar({
   className,
 }: {
   alt: string;
-  className: string;
+  className?: string;
   src?: string | StaticImport;
   height: number | `${number}`;
   width: number | `${number}`;

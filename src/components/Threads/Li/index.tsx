@@ -16,8 +16,7 @@ import { useAuthContext } from "@/context/authContext";
 
 import { Thread } from "@/types/threads";
 import { InAppLinks } from "@/types/links";
-
-import UserInfo from "./UserInfo";
+import UserInfo from "@/components/UserInfo";
 
 const ThreadLi = memo(function ThreadLi({
   thread,

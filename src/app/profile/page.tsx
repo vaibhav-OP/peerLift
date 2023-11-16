@@ -32,12 +32,9 @@ export default function ProfilePage() {
         />
 
         <div className="flex gap-3">
-          <input
-            type="text"
-            defaultValue={user?.displayName}
-            maxLength={10}
-            className="bg-transparent outline-none text-center text-3xl font-normal"
-          />
+          <div className="bg-transparent outline-none text-center text-3xl font-normal">
+            {user?.displayName}
+          </div>
           <button className="text-2xl">
             <HiPencil />
           </button>
