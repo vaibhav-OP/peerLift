@@ -1,4 +1,6 @@
 import TextHeader from "@/components/Header/TextHeader";
+import ThreadOptions from "@/components/Modals/ThreadOptions";
+import { ThreadOptionsContextProvider } from "@/context/threadOptionContext";
 
 export default function ThreadLayout({
   children,
@@ -8,6 +10,9 @@ export default function ThreadLayout({
   return (
     <>
       <TextHeader heading="test" />
+      <ThreadOptionsContextProvider>
+        <ThreadOptions />
+      </ThreadOptionsContextProvider>
       <div className="relative h-full overflow-x-auto flex flex-col">
         {children}
       </div>

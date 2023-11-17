@@ -11,14 +11,18 @@ export default function UserInfo({ user }: { user: string }) {
 
   useEffect(() => {
     async function fetchUser() {
-      const userRef = doc(db, "users", user);
-      const userSnap = await getDoc(userRef);
-      const fetchedUserData = {
-        uid: userSnap.id,
-        ...userSnap.data(),
-      } as UserData;
+      try {
+        const userRef = doc(db, "users", user);
+        const userSnap = await getDoc(userRef);
+        const fetchedUserData = {
+          uid: userSnap.id,
+          ...userSnap.data(),
+        } as UserData;
 
-      setUserData(fetchedUserData);
+        setUserData(fetchedUserData);
+      } catch {
+        setUserData(undefined);
+      }
     }
     fetchUser();
   }, []);

@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Modal({
   isOpen,
@@ -13,24 +14,33 @@ export default function Modal({
   children?: React.ReactNode;
   onRequestClose: () => void;
 }) {
-  if (!isOpen) return;
   return (
-    <div
-      className={clsx(
-        "fixed flex h-full w-full top-0 left-0 bg-text/40 z-50 backdrop-blur-sm",
-        overlayClassName
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className={clsx(
+            "fixed flex h-full w-full top-0 left-0 bg-text/40 z-50 backdrop-blur-sm",
+            overlayClassName
+          )}
+          onClick={e => {
+            if (e.currentTarget != e.target) return;
+            onRequestClose();
+          }}>
+          <motion.div
+            exit={{ y: "100%" }}
+            whileInView={{ y: 0 }}
+            initial={{ y: "100%" }}
+            className={clsx(
+              "bg-background w-5/6 h-5/6 m-auto rounded-3xl overflow-hidden",
+              contentClassName
+            )}>
+            {children}
+          </motion.div>
+        </motion.div>
       )}
-      onClick={e => {
-        if (e.currentTarget != e.target) return;
-        onRequestClose();
-      }}>
-      <div
-        className={clsx(
-          "bg-background w-5/6 h-5/6 m-auto rounded-3xl overflow-hidden",
-          contentClassName
-        )}>
-        {children}
-      </div>
-    </div>
+    </AnimatePresence>
   );
 }

@@ -19,7 +19,7 @@ export default function MessageLI({ message }: { message: Message }) {
         </div>
         <div className="font-normal">{message.text}</div>
       </div>
-      <button onClick={() => openMessageOptionModal(message.user, message)}>
+      <button onClick={() => openMessageOptionModal(message)}>
         <BiDotsHorizontalRounded className="text-lg font-bold" />
       </button>
     </li>

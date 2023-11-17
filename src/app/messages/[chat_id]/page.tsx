@@ -124,7 +124,7 @@ export default function ChatPage({
 
   return (
     <>
-      <ul className="flex flex-col-reverse h-fit max-h-full mt-auto flex-grow overflow-y-auto pb-[69px] scrollbar-thin scrollbar-thumb-text/40">
+      <ul className="flex flex-col-reverse h-fit max-h-full mt-auto flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-text/40">
         <span ref={bottomElementRef} />
         {messageList.map(message => (
           <MessageLI key={message.uid} message={message} />

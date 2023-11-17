@@ -56,7 +56,7 @@ export default function ChatMessageInputField({
     }
   };
   return (
-    <div className="bg-background absolute w-full bottom-0 left-0 py-3">
+    <div className="bg-background w-full bottom-0 left-0 py-3">
       <div className="flex w-11/12 gap-2 mx-auto rounded-3xl">
         <input
           type="text"

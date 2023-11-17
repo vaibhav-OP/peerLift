@@ -2,7 +2,12 @@
 
 const nextConfig = {
   images: {
-    domains: ["media.discordapp.net"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.discordapp.net",
+      },
+    ],
   },
 };
 

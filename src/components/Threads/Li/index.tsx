@@ -17,6 +17,7 @@ import { useAuthContext } from "@/context/authContext";
 import { Thread } from "@/types/threads";
 import { InAppLinks } from "@/types/links";
 import UserInfo from "@/components/UserInfo";
+import { useThreadOptionsContext } from "@/context/threadOptionContext";
 
 const ThreadLi = memo(function ThreadLi({
   thread,
@@ -28,6 +29,8 @@ const ThreadLi = memo(function ThreadLi({
   className?: string;
 }) {
   const { user } = useAuthContext();
+  const { openThreadOptionModal } = useThreadOptionsContext();
+
   const isThreadBookMarked = !!user?.bookmarks?.some(uid => uid === thread.uid);
 
   const Wrapper = ({ children }: { children: React.ReactNode }) => {
@@ -96,7 +99,9 @@ const ThreadLi = memo(function ThreadLi({
         <button onClick={bookMarkThread}>
           {isThreadBookMarked ? <BsBookmarkFill /> : <BsBookmark />}
         </button>
-        <BsThreeDots />
+        <button onClick={() => openThreadOptionModal(thread)}>
+          <BsThreeDots />
+        </button>
       </div>
     </Wrapper>
   );

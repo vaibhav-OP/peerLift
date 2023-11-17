@@ -4,16 +4,14 @@ import { PropsWithChildren, createContext, useContext, useState } from "react";
 
 const MessageOptions = createContext<{
   isOpen: boolean;
-  selectedUserUid: string;
   selectedMessage: Message | undefined;
   closeMessageOptionModal: () => void;
-  openMessageOptionModal: (userUid: string, message: Message) => void;
+  openMessageOptionModal: (message: Message) => void;
 }>({
   isOpen: false,
-  selectedUserUid: "",
   selectedMessage: undefined,
   closeMessageOptionModal: () => {},
-  openMessageOptionModal: (userUid: string, message: Message) => {},
+  openMessageOptionModal: (message: Message) => {},
 });
 export const useMessageOptionsContext = () => useContext(MessageOptions);
 
@@ -21,16 +19,13 @@ export const MessageOptionsContextProvider = ({
   children,
 }: PropsWithChildren<{}>) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedUserUid, setSelectedUserUid] = useState("");
   const [selectedMessage, setSelectedMessage] = useState<Message>();
 
-  const openMessageOptionModal = (userUid: string, message: Message) => {
-    setSelectedUserUid(userUid);
+  const openMessageOptionModal = (message: Message) => {
     setSelectedMessage(message);
     setIsOpen(true);
   };
   const closeMessageOptionModal = () => {
-    setSelectedUserUid("");
     setSelectedMessage(undefined);
     setIsOpen(false);
   };
@@ -39,7 +34,6 @@ export const MessageOptionsContextProvider = ({
     <MessageOptions.Provider
       value={{
         isOpen: isOpen,
-        selectedUserUid: selectedUserUid,
         selectedMessage: selectedMessage,
         openMessageOptionModal: openMessageOptionModal,
         closeMessageOptionModal: closeMessageOptionModal,

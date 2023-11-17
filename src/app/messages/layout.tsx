@@ -15,7 +15,7 @@ export default function MessageLayout({
         <MobileNavigationContextProvider>
           <InboxList />
 
-          <div className="flex-grow relative flex">{children}</div>
+          <div className="flex-grow relative flex flex-col">{children}</div>
         </MobileNavigationContextProvider>
       </div>
     </>
