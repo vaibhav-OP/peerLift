@@ -12,10 +12,10 @@ export default function ThreadLayout({
       <TextHeader heading="test" />
       <ThreadOptionsContextProvider>
         <ThreadOptions />
+        <div className="relative h-full overflow-x-auto flex flex-col">
+         {children}
+        </div>
       </ThreadOptionsContextProvider>
-      <div className="relative h-full overflow-x-auto flex flex-col">
-        {children}
-      </div>
     </>
   );
 }
