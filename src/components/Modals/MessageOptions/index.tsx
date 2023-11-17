@@ -67,7 +67,7 @@ export default function MessageOptionsModal() {
     <Modal
       isOpen={isOpen}
       onRequestClose={closeMessageOptionModal}
-      contentClassName="mb-0 rounded-b-none !h-fit sm:rounded-b-3xl sm:mb-auto sm:max-w-lg">
+      contentClassName="mb-0 rounded-b-none !h-fit !w-full sm:rounded-b-3xl sm:mb-auto sm:max-w-lg">
       <div className="bg-grey py-3 px-5 text-background flex items-center justify-between">
         <div className="flex gap-3 items-center">
           <UserInfo user={selectedMessage?.user as string} />
