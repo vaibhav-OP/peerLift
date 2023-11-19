@@ -7,7 +7,7 @@ import { db } from "@/firebase/config";
 import { Thread } from "@/types/threads";
 import { ThreadLi } from "@/components/Threads";
 import { MessageUI } from "@/components/Message";
-import LoadingSkeleton from "@/components/LoadingSkeleton";
+import LoadingSkeleton from "@/components/LoadingScreen";
 
 export default function ThreadPage({
   params,

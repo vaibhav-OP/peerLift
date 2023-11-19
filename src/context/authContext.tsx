@@ -17,7 +17,7 @@ const RegistrationForm = dynamic(
 
 import { UserData } from "@/types/user";
 import { auth, db } from "@/firebase/config";
-import LoadingSkeleton from "@/components/LoadingSkeleton";
+import LoadingSkeleton from "@/components/LoadingScreen";
 
 interface AuthContextProps {
   user: UserData | null;
