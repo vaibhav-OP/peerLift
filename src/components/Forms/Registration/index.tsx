@@ -1,22 +1,26 @@
 "use client";
 import clsx from "clsx";
 import Image from "next/image";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
+import { InAppLinks } from "@/types/links";
 import useMultistepForm from "@/hooks/multiStepForm";
 import { useAuthContext } from "@/context/authContext";
+import BackgroundImage from "@/../public/background-shape.svg";
 
 import interestList from "./interestList";
 import { Interests, UserDetails } from "./types";
 
-import BackgroundImage from "@/../public/background-shape.svg";
-
 const genderOptiopns: UserDetails["gender"][] = ["male", "female"];
 
 export default function RegistrationForm() {
+  const route = useRouter();
   const { user } = useAuthContext();
+
   const [selectedInterest, setSelectedInterest] = useState<Interests[]>([]);
   const [userDetails, setUserDetails] = useState({
     bio: "",
@@ -60,7 +64,7 @@ export default function RegistrationForm() {
         interests: selectedInterest,
       });
 
-      window.location.reload();
+      toast.success("Registered successfull");
     } catch (err) {
       alert("something went wrong");
     }

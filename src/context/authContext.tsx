@@ -1,23 +1,18 @@
 "use client";
+import { usePathname, useRouter } from "next/navigation";
 import {
-  useState,
   useEffect,
-  useContext,
+  useState,
   createContext,
   PropsWithChildren,
+  useContext,
 } from "react";
-import dynamic from "next/dynamic";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, onSnapshot } from "firebase/firestore";
-
-const LoginForm = dynamic(() => import("@/components/Forms/Login"));
-const RegistrationForm = dynamic(
-  () => import("@/components/Forms/Registration")
-);
-
-import { UserData } from "@/types/user";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "@/firebase/config";
 import LoadingSkeleton from "@/components/LoadingScreen";
+import { UserData, mapUserToUserData } from "@/types/user";
+import { InAppLinks } from "@/types/links";
 
 interface AuthContextProps {
   user: UserData | null;
@@ -29,32 +24,55 @@ export const AuthContext = createContext<AuthContextProps>({
 export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }: PropsWithChildren<{}>) => {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<UserData | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isUserRegistered, setIsUserRegistered] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, authUser => {
-      if (authUser) {
-        setIsAuthenticated(true);
+    const unsubscribe = onAuthStateChanged(auth, async firebaseUser => {
+      try {
+        if (firebaseUser) {
+          const userData = mapUserToUserData(firebaseUser);
+          const userRef = doc(db, "users", userData.uid);
+          const snapshot = await getDoc(userRef);
 
-        const userRef = doc(db, "users", authUser.uid);
-
-        const userSnapshot = onSnapshot(userRef, snapshot => {
           if (snapshot.exists()) {
-            setUser({ ...snapshot.data(), uid: snapshot.id } as UserData);
+            setUser({
+              ...snapshot.data(),
+              uid: snapshot.id,
+              registered: true,
+            } as UserData);
+
+            const userSnapshot = onSnapshot(userRef, docSnapshot => {
+              if (docSnapshot.exists()) {
+                setUser({
+                  ...docSnapshot.data(),
+                  uid: docSnapshot.id,
+                  registered: true,
+                } as UserData);
+              } else {
+                setUser(userData as UserData);
+              }
+            });
+
             setLoading(false);
+
+            return () => {
+              userSnapshot();
+            };
           } else {
-            setUser(authUser as UserData);
+            setUser(userData as UserData);
             setLoading(false);
-            setIsUserRegistered(false);
           }
-        });
-      } else {
-        setUser(null);
+        } else {
+          setUser(null);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
         setLoading(false);
-        setIsAuthenticated(false);
       }
     });
 
@@ -63,17 +81,29 @@ export const AuthContextProvider = ({ children }: PropsWithChildren<{}>) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!loading) {
+      if (!user && pathname !== InAppLinks.login) {
+        router.push(InAppLinks.login);
+      } else if (
+        user &&
+        !user.registered &&
+        pathname !== InAppLinks.registration
+      ) {
+        router.push(InAppLinks.registration);
+      } else if (
+        user &&
+        user.registered &&
+        (pathname === InAppLinks.login || pathname === InAppLinks.registration)
+      ) {
+        router.push(InAppLinks.home);
+      }
+    }
+  }, [loading, user, pathname, router]);
+
   return (
     <AuthContext.Provider value={{ user }}>
-      {loading ? (
-        <LoadingSkeleton />
-      ) : !isAuthenticated ? (
-        <LoginForm />
-      ) : !isUserRegistered ? (
-        <RegistrationForm />
-      ) : (
-        <>{children}</>
-      )}
+      {loading ? <LoadingSkeleton /> : children}
     </AuthContext.Provider>
   );
 };

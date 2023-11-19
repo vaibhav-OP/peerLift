@@ -39,8 +39,6 @@ export default function LoginForm() {
       .catch(err => {
         alert(err);
         console.log(err);
-
-        // window.location.reload();
       });
   };
 
@@ -50,7 +48,6 @@ export default function LoginForm() {
       .confirm(otp.join(""))
       .then(() => {
         toast.success("Login successfull");
-        route.push(InAppLinks.home);
       })
       .catch(err => {
         console.log(err);

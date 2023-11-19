@@ -2,13 +2,10 @@ import clsx from "clsx";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 
-import Navbar from "@/components/Navbar";
 import ReactToastify from "@/components/ReactToastify";
-import { AuthContextProvider } from "@/context/authContext";
-import ThreadOptions from "@/components/Modals/ThreadOptions";
-import { ThreadOptionsContextProvider } from "@/context/threadOptionContext";
 
 import "@/style/globals.css";
+import { AuthContextProvider } from "@/context/authContext";
 
 export const metadata: Metadata = {
   title: "peer lift",
@@ -30,15 +27,7 @@ export default function RootLayout({
           roboto.className
         )}>
         <ReactToastify />
-        <AuthContextProvider>
-          <main className="pb-20 h-[calc(100%_-_80px)]" id="app">
-            <ThreadOptionsContextProvider>
-              <ThreadOptions />
-              {children}
-            </ThreadOptionsContextProvider>
-          </main>
-        </AuthContextProvider>
-        <Navbar />
+        <AuthContextProvider>{children}</AuthContextProvider>
       </body>
     </html>
   );

@@ -4,4 +4,6 @@ export enum InAppLinks {
   profile = "/profile",
   messages = "/messages",
   commuinity = "/community",
+  login = "/login",
+  registration = "/registration",
 }
