@@ -5,6 +5,8 @@ import { Roboto } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import ReactToastify from "@/components/ReactToastify";
 import { AuthContextProvider } from "@/context/authContext";
+import ThreadOptions from "@/components/Modals/ThreadOptions";
+import { ThreadOptionsContextProvider } from "@/context/threadOptionContext";
 
 import "@/style/globals.css";
 
@@ -30,10 +32,13 @@ export default function RootLayout({
         <ReactToastify />
         <AuthContextProvider>
           <main className="pb-20 h-[calc(100%_-_80px)]" id="app">
-            {children}
+            <ThreadOptionsContextProvider>
+              <ThreadOptions />
+              {children}
+            </ThreadOptionsContextProvider>
           </main>
-          <Navbar />
         </AuthContextProvider>
+        <Navbar />
       </body>
     </html>
   );

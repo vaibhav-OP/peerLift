@@ -2,7 +2,6 @@
 import { signOut } from "firebase/auth";
 
 import { auth } from "@/firebase/config";
-
 import JournalSection from "./JournalSection";
 
 export default function Home() {

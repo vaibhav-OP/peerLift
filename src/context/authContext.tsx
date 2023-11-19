@@ -6,6 +6,7 @@ import {
   createContext,
   PropsWithChildren,
 } from "react";
+import dynamic from "next/dynamic";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, onSnapshot } from "firebase/firestore";
 
@@ -16,7 +17,7 @@ const RegistrationForm = dynamic(
 
 import { UserData } from "@/types/user";
 import { auth, db } from "@/firebase/config";
-import dynamic from "next/dynamic";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 interface AuthContextProps {
   user: UserData | null;
@@ -65,7 +66,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren<{}>) => {
   return (
     <AuthContext.Provider value={{ user }}>
       {loading ? (
-        <>loading</>
+        <LoadingSkeleton />
       ) : !isAuthenticated ? (
         <LoginForm />
       ) : !isUserRegistered ? (

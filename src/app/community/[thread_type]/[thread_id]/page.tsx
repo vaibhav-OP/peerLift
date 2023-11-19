@@ -7,6 +7,7 @@ import { db } from "@/firebase/config";
 import { Thread } from "@/types/threads";
 import { ThreadLi } from "@/components/Threads";
 import { MessageUI } from "@/components/Message";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 export default function ThreadPage({
   params,
@@ -33,7 +34,7 @@ export default function ThreadPage({
     fetchThread();
   }, []);
 
-  if (threadData === undefined) return <div>loading</div>;
+  if (threadData === undefined) return <LoadingSkeleton />;
   if (threadData === null) return <Error statusCode={404} />;
   return (
     <>
