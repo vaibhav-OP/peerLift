@@ -9,6 +9,7 @@ import { useAuthContext } from "@/context/authContext";
 
 import MyPosts from "./MyPosts";
 import SavedThreads from "./SavedThreads";
+import Friends from "./(Friends)";
 
 type CurrentSection = "My Posts" | "Friends" | "Saved";
 const currentSectionList: CurrentSection[] = ["My Posts", "Friends", "Saved"];
@@ -58,7 +59,7 @@ export default function ProfilePage() {
           {
             {
               Saved: <SavedThreads />,
-              Friends: <div>Friends</div>,
+              Friends: <Friends />,
               "My Posts": <MyPosts />,
             }[currentSection]
           }
