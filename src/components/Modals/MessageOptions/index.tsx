@@ -9,6 +9,9 @@ import {
   arrayUnion,
   collection,
   serverTimestamp,
+  query,
+  where,
+  getDocs,
 } from "firebase/firestore";
 
 import Modal from "..";
@@ -70,7 +73,7 @@ export default function MessageOptionsModal() {
     toast.success("Copied text successfully.");
   };
 
-  const sendFriendRequest = () => {
+  const sendFriendRequest = async () => {
     if (!selectedMessage || !user) return;
 
     const selectedUserNotificationRef = collection(
@@ -79,6 +82,20 @@ export default function MessageOptionsModal() {
       selectedMessage.user,
       "notifications"
     );
+
+    const querySnapshot = await getDocs(
+      query(
+        selectedUserNotificationRef,
+        where("from", "==", user.uid),
+        where("type", "==", "friend-request")
+      )
+    );
+
+    if (!querySnapshot.empty) {
+      closeMessageOptionModal();
+      toast.error("Friend request already sent.");
+      return;
+    }
 
     const notificationSentPromise = addDoc(selectedUserNotificationRef, {
       from: user.uid,
