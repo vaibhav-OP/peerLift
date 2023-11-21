@@ -1,8 +1,9 @@
 "use client";
 import clsx from "clsx";
 import { useState } from "react";
-import PendingRequests from "./PendingRequests";
+
 import FriendList from "./FriendList";
+import PendingRequests from "./PendingRequests";
 
 export default function Friends() {
   const [currentSection, setCurrentSection] = useState<"friends" | "pending">(

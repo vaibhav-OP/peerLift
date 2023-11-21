@@ -4,14 +4,14 @@ import { FaXmark } from "react-icons/fa6";
 import { useAuthContext } from "@/context/authContext";
 import {
   doc,
+  query,
+  where,
   addDoc,
+  getDocs,
   updateDoc,
   arrayUnion,
   collection,
   serverTimestamp,
-  query,
-  where,
-  getDocs,
 } from "firebase/firestore";
 
 import Modal from "..";
@@ -143,11 +143,17 @@ export default function MessageOptionsModal() {
                 onClick={reportMessage}>
                 Report Message
               </button>
-              <button
-                className="py-2 px-3 text-green text-left"
-                onClick={sendFriendRequest}>
-                Send Friend Request
-              </button>
+              {!user?.friendList?.includes(selectedMessage?.user as string) ? (
+                <button
+                  className="py-2 px-3 text-green text-left"
+                  onClick={sendFriendRequest}>
+                  Send Friend Request
+                </button>
+              ) : (
+                <button className="py-2 px-3 text-primary text-left">
+                  Remove Friend
+                </button>
+              )}
             </>
           )}
         </div>
