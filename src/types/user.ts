@@ -12,6 +12,7 @@ export interface UserData {
   bookmarks?: string[];
   interests?: InterestArray;
   registered: boolean;
+  friendList?: string[];
 }
 
 export const mapUserToUserData = (firebaseUser: User): UserData => {

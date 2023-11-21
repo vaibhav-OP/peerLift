@@ -2,6 +2,7 @@
 import clsx from "clsx";
 import { useState } from "react";
 import PendingRequests from "./PendingRequests";
+import FriendList from "./FriendList";
 
 export default function Friends() {
   const [currentSection, setCurrentSection] = useState<"friends" | "pending">(
@@ -31,7 +32,7 @@ export default function Friends() {
       <div>
         {
           {
-            friends: <div>Friends</div>,
+            friends: <FriendList />,
             pending: <PendingRequests />,
           }[currentSection]
         }
