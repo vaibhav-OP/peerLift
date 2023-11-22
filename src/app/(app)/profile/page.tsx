@@ -1,6 +1,6 @@
 "use client";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiPencil } from "react-icons/hi";
 
 import Avatar from "@/components/Avatar";
@@ -10,6 +10,8 @@ import { useAuthContext } from "@/context/authContext";
 import MyPosts from "./MyPosts";
 import SavedThreads from "./SavedThreads";
 import Friends from "./(Friends)";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { db } from "@/firebase/config";
 
 type CurrentSection = "My Posts" | "Friends" | "Saved";
 const currentSectionList: CurrentSection[] = ["My Posts", "Friends", "Saved"];
@@ -19,6 +21,30 @@ export default function ProfilePage() {
 
   const [currentSection, setCurrentSection] =
     useState<CurrentSection>("My Posts");
+  const [pendingRequestsCount, setPendingRequestsCount] = useState<number>(0);
+
+  useEffect(() => {
+    if (!user) return;
+    const notificationRef = collection(db, "users", user.uid, "notifications");
+    const notificationQuery = query(
+      notificationRef,
+      where("type", "==", "friend-request")
+    );
+
+    const unsubscribe = onSnapshot(notificationQuery, snapshot => {
+      snapshot.docChanges().forEach(change => {
+        if (change.type === "removed") {
+          setPendingRequestsCount(count => count - 1);
+        } else if (change.type === "added") {
+          setPendingRequestsCount(count => count + 1);
+        }
+      });
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <>
@@ -49,8 +75,13 @@ export default function ProfilePage() {
               onClick={() => setCurrentSection(section)}
               className={clsx(
                 section === currentSection && "bg-text text-background",
-                "px-3 py-2 rounded-full transition-all"
+                "px-3 py-2 rounded-full transition-all relative"
               )}>
+              {section === "Friends" && pendingRequestsCount >= 1 && (
+                <span className="text-background bg-primary h-5 w-5 leading-5 text-xs text-center border-background border rounded-full absolute -top-1 -right-1">
+                  {pendingRequestsCount}
+                </span>
+              )}
               {section}
             </button>
           ))}
@@ -59,7 +90,7 @@ export default function ProfilePage() {
           {
             {
               Saved: <SavedThreads />,
-              Friends: <Friends />,
+              Friends: <Friends pendingRequestsCount={pendingRequestsCount} />,
               "My Posts": <MyPosts />,
             }[currentSection]
           }
