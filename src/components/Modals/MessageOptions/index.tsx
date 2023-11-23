@@ -2,21 +2,13 @@
 import toast from "react-hot-toast";
 import { FaXmark } from "react-icons/fa6";
 import { useAuthContext } from "@/context/authContext";
-import {
-  doc,
-  query,
-  where,
-  addDoc,
-  getDocs,
-  updateDoc,
-  arrayUnion,
-  collection,
-  serverTimestamp,
-} from "firebase/firestore";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 import Modal from "..";
 import { db } from "@/firebase/config";
 import UserInfo from "@/components/UserInfo";
+import CopyText from "@/components/Buttons/CopyText";
+import { ReportUser, SendFriendRequest } from "@/components/Buttons";
 import { useMessageOptionsContext } from "@/context/messageOptionContext";
 
 export default function MessageOptionsModal() {
@@ -45,72 +37,6 @@ export default function MessageOptionsModal() {
     }
   };
 
-  const reportUser = async () => {
-    if (!user || !selectedMessage) return;
-    try {
-      const reportedMessageRef = doc(db, "reported", "users");
-
-      await updateDoc(reportedMessageRef, {
-        users: arrayUnion({
-          reportedBy: user.uid,
-          text: selectedMessage.text,
-          messageUid: selectedMessage.uid,
-          messageAuthor: selectedMessage.user,
-        }),
-      });
-
-      closeMessageOptionModal();
-      toast.success("Reported user successful.");
-    } catch (error) {
-      toast.error("Something went wrong.");
-    }
-  };
-
-  const copyMessage = () => {
-    if (!selectedMessage) return;
-    window.navigator.clipboard.writeText(selectedMessage.text);
-    closeMessageOptionModal();
-    toast.success("Copied text successfully.");
-  };
-
-  const sendFriendRequest = async () => {
-    if (!selectedMessage || !user) return;
-
-    const selectedUserNotificationRef = collection(
-      db,
-      "users",
-      selectedMessage.user,
-      "notifications"
-    );
-
-    const querySnapshot = await getDocs(
-      query(
-        selectedUserNotificationRef,
-        where("from", "==", user.uid),
-        where("type", "==", "friend-request")
-      )
-    );
-
-    if (!querySnapshot.empty) {
-      closeMessageOptionModal();
-      toast.error("Friend request already sent.");
-      return;
-    }
-
-    const notificationSentPromise = addDoc(selectedUserNotificationRef, {
-      from: user.uid,
-      type: "friend-request",
-      createdAt: serverTimestamp(),
-    });
-
-    closeMessageOptionModal();
-    toast.promise(notificationSentPromise, {
-      loading: "Sending friend request.",
-      success: "Friend request sent successful.",
-      error: "Something went wrong.",
-    });
-  };
-
   return (
     <Modal
       isOpen={isOpen}
@@ -126,34 +52,31 @@ export default function MessageOptionsModal() {
       </div>
       <div className="bg-text py-5 px-6">
         <div className="w-full bg-grey text-background font-bold text-sm font-sans grid text-left">
-          <button
-            className="py-2 px-3 border-b border-text/10 text-left"
-            onClick={copyMessage}>
+          <CopyText
+            text={selectedMessage?.text as string}
+            callBack={closeMessageOptionModal}>
             Copy Message
-          </button>
+          </CopyText>
           {user?.uid !== selectedMessage?.user && (
             <>
-              <button
-                className="py-2 px-3 border-b border-text/10 text-primary text-left"
-                onClick={reportUser}>
-                Report User
-              </button>
+              <ReportUser
+                closeModalFallback={closeMessageOptionModal}
+                report={{
+                  type: "message",
+                  uid: selectedMessage?.uid as string,
+                  title: selectedMessage?.text as string,
+                  author: selectedMessage?.user as string,
+                }}
+              />
               <button
                 className="py-2 px-3 text-primary border-b border-text/10 text-left"
                 onClick={reportMessage}>
                 Report Message
               </button>
-              {!user?.friendList?.includes(selectedMessage?.user as string) ? (
-                <button
-                  className="py-2 px-3 text-green text-left"
-                  onClick={sendFriendRequest}>
-                  Send Friend Request
-                </button>
-              ) : (
-                <button className="py-2 px-3 text-primary text-left">
-                  Remove Friend
-                </button>
-              )}
+              <SendFriendRequest
+                selectedUser={selectedMessage?.user as string}
+                closeModalFallback={closeMessageOptionModal}
+              />
             </>
           )}
         </div>

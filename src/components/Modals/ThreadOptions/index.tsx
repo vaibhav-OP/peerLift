@@ -6,7 +6,9 @@ import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 
 import Modal from "..";
 import { db } from "@/firebase/config";
+import CopyText from "@/components/Buttons/CopyText";
 import { useAuthContext } from "@/context/authContext";
+import { ReportUser, SendFriendRequest } from "@/components/Buttons";
 import { useThreadOptionsContext } from "@/context/threadOptionContext";
 
 export default function ThreadOptions() {
@@ -36,27 +38,6 @@ export default function ThreadOptions() {
     }
   };
 
-  const reportUser = async () => {
-    if (!user || !selectedThread) return;
-    try {
-      const reportedMessageRef = doc(db, "reported", "users");
-
-      await updateDoc(reportedMessageRef, {
-        users: arrayUnion({
-          reportedBy: user.uid,
-          title: selectedThread.title,
-          body: selectedThread.body,
-          messageAuthor: selectedThread.user,
-        }),
-      });
-
-      closeThreadOptionModal();
-      toast.success("Reported user successful.");
-    } catch (error) {
-      toast.error("Something went wrong.");
-    }
-  };
-
   return (
     <Modal
       isOpen={isOpen}
@@ -72,19 +53,35 @@ export default function ThreadOptions() {
       </div>
       <div className="bg-text py-5 px-6">
         <div className="w-full bg-grey text-background font-bold text-sm font-sans grid text-left">
+          <CopyText
+            text={selectedThread?.title as string}
+            callBack={closeThreadOptionModal}>
+            Copy Title
+          </CopyText>
+          <CopyText
+            text={selectedThread?.body as string}
+            callBack={closeThreadOptionModal}>
+            Copy Body
+          </CopyText>
+          <ReportUser
+            closeModalFallback={closeThreadOptionModal}
+            report={{
+              type: "thread",
+              uid: selectedThread?.uid as string,
+              body: selectedThread?.body as string,
+              author: selectedThread?.user as string,
+              title: selectedThread?.title as string,
+            }}
+          />
           <button
             className="py-2 px-3 text-primary border-b border-text/10 text-left"
             onClick={reportThread}>
             Report Thread
           </button>
-          <button
-            className="py-2 px-3 border-b border-text/10 text-primary text-left"
-            onClick={reportUser}>
-            Report User
-          </button>
-          <button className="py-2 px-3 text-green text-left">
-            Friend Request Sent
-          </button>
+          <SendFriendRequest
+            closeModalFallback={closeThreadOptionModal}
+            selectedUser={selectedThread?.user as string}
+          />
         </div>
       </div>
     </Modal>
