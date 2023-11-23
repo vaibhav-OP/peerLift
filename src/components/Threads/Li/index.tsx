@@ -2,13 +2,9 @@ import clsx from "clsx";
 import { memo } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { BsShare, BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
-import {
-  BsBookmark,
-  BsThreeDots,
-  BsShare,
-  BsBookmarkFill,
-} from "react-icons/bs";
 
 import { db } from "@/firebase/config";
 import formatTimeSince from "@/helper/timeSince";
@@ -100,7 +96,7 @@ const ThreadLi = memo(function ThreadLi({
           {isThreadBookMarked ? <BsBookmarkFill /> : <BsBookmark />}
         </button>
         <button onClick={() => openThreadOptionModal(thread)}>
-          <BsThreeDots />
+          <BiDotsHorizontalRounded />
         </button>
       </div>
     </Wrapper>
