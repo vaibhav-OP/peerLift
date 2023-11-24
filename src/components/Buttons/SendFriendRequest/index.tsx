@@ -1,15 +1,6 @@
-import toast from "react-hot-toast";
-import {
-  where,
-  query,
-  addDoc,
-  getDocs,
-  collection,
-  serverTimestamp,
-} from "firebase/firestore";
-
-import { db } from "@/firebase/config";
 import { useAuthContext } from "@/context/authContext";
+import sendFriendRequest from "./sendFriendRequest";
+import toast from "react-hot-toast";
 
 export default function SendFriendRequest({
   selectedUser,
@@ -20,42 +11,16 @@ export default function SendFriendRequest({
 }) {
   const { user } = useAuthContext();
 
-  const sendFriendRequest = async () => {
+  const handleSendFriendRequest = async () => {
     if (!user) return;
-
-    const selectedUserNotificationRef = collection(
-      db,
-      "users",
-      selectedUser,
-      "notifications"
-    );
-
-    const querySnapshot = await getDocs(
-      query(
-        selectedUserNotificationRef,
-        where("from", "==", user.uid),
-        where("type", "==", "friend-request")
-      )
-    );
-
-    if (!querySnapshot.empty) {
-      closeModalFallback();
-      toast.error("Friend request already sent.");
-      return;
-    }
-
-    const notificationSentPromise = addDoc(selectedUserNotificationRef, {
-      from: user.uid,
-      type: "friend-request",
-      createdAt: serverTimestamp(),
-    });
-
     closeModalFallback();
-    toast.promise(notificationSentPromise, {
-      loading: "Sending friend request.",
-      success: "Friend request sent successful.",
-      error: "Something went wrong.",
-    });
+    const result = await sendFriendRequest(user?.uid, selectedUser);
+
+    if (result?.error) {
+      return toast.error(result.error);
+    } else {
+      toast.success("Friend request sent succesfull.");
+    }
   };
 
   if (!user || selectedUser === user.uid) return;
@@ -64,7 +29,7 @@ export default function SendFriendRequest({
       {!user?.friendList?.includes(selectedUser) ? (
         <button
           className="py-2 px-3 text-green text-left"
-          onClick={sendFriendRequest}>
+          onClick={handleSendFriendRequest}>
           Send Friend Request
         </button>
       ) : (

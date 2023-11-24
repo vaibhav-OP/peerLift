@@ -2,11 +2,11 @@ import clsx from "clsx";
 import Link from "next/link";
 import { GoDotFill } from "react-icons/go";
 
-import { Chatroom } from "@/types/chatroom";
 import { InAppLinks } from "@/types/links";
+import { Chatroom } from "@/types/chatroom";
+import UserInfo from "@/components/UserInfo";
 import formatTimeSince from "@/helper/timeSince";
 import { useAuthContext } from "@/context/authContext";
-import UserInfo from "@/components/UserInfo";
 
 export default function InboxItem({
   chatroom,

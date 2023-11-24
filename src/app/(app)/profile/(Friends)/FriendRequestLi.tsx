@@ -1,15 +1,16 @@
+import { useMemo } from "react";
+import toast from "react-hot-toast";
+import { FaCheck, FaXmark } from "react-icons/fa6";
 import { arrayUnion, deleteDoc, doc, updateDoc } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
+import UserInfo from "@/components/UserInfo";
 import formatTimeSince from "@/helper/timeSince";
 import { useAuthContext } from "@/context/authContext";
+import { useMessageOptionsContext } from "@/context/messageOptionContext";
 
 import { IFriendRequests } from "./PendingRequests";
-import UserInfo from "@/components/UserInfo";
-import { FaCheck, FaXmark } from "react-icons/fa6";
-import { useMemo } from "react";
-import toast from "react-hot-toast";
-import { useMessageOptionsContext } from "@/context/messageOptionContext";
+import acceptFriendRequest from "./acceptFriendRequest";
 
 export default function FriendRequestLi({
   request,
@@ -38,21 +39,14 @@ export default function FriendRequestLi({
     });
   };
 
-  const handleAcceptFriendRequest = () => {
-    const userPromise = updateDoc(userRef, {
-      friendList: arrayUnion(request.from),
-    });
+  const handleAcceptFriendRequest = async () => {
+    if (!user) return;
+    closeMessageOptionModal();
+    const result = await acceptFriendRequest(user.uid, request.from);
 
-    toast.promise(userPromise, {
-      success: () => {
-        deleteDoc(notificationRef);
-        closeMessageOptionModal();
-
-        return "Friend request accepted.";
-      },
-      loading: "Accepting friend request",
-      error: "Something went wrong.",
-    });
+    if (result?.error) return toast.error(result.error);
+    deleteDoc(notificationRef);
+    toast.success("Friend request accepted succesfully.");
   };
   return (
     <li className="flex justify-between items-center py-3 border-b border-text/10 px-4">
