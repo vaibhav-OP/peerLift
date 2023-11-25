@@ -1,7 +1,9 @@
-import { useAuthContext } from "@/context/authContext";
-import sendFriendRequest from "./sendFriendRequest";
 import toast from "react-hot-toast";
+
 import removeFriend from "./removeFriend";
+import sendFriendRequest from "./sendFriendRequest";
+
+import { useAuthContext } from "@/context/authContext";
 
 export default function SendFriendRequest({
   selectedUser,

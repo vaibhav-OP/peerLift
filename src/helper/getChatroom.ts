@@ -31,13 +31,13 @@ const getChatroom = async (senderUid: string, receiverUid: string) => {
   const chatroomSnapshot = await getDocs(chatroomQuery);
 
   if (!chatroomSnapshot.empty) {
-    return chatroomSnapshot.docs[0].ref;
+    return chatroomSnapshot.docs[0].id;
   } else {
     const chatroom = await addDoc(chatroomRef, {
       createdAt: serverTimestamp(),
       members: members,
     });
-    return chatroom;
+    return chatroom.id;
   }
 };
 

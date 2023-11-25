@@ -62,7 +62,9 @@ export default function ChatPage({
       );
 
       setMessageList(updatedMessageList);
-      setAllMessagesFetched(false);
+      if (querySnapshot.empty || querySnapshot.size < 15)
+        setAllMessagesFetched(true);
+
       updateDoc(chatroomRef, {
         "lastMessage.readBy": arrayUnion(user?.uid as string),
       });

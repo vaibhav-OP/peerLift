@@ -8,7 +8,11 @@ import Modal from "..";
 import { db } from "@/firebase/config";
 import CopyText from "@/components/Buttons/CopyText";
 import { useAuthContext } from "@/context/authContext";
-import { ReportUser, SendFriendRequest } from "@/components/Buttons";
+import {
+  ReportUser,
+  SendFriendRequest,
+  SendMessage,
+} from "@/components/Buttons";
 import { useThreadOptionsContext } from "@/context/threadOptionContext";
 
 export default function ThreadOptions() {
@@ -63,6 +67,7 @@ export default function ThreadOptions() {
             callBack={closeThreadOptionModal}>
             Copy Body
           </CopyText>
+          <SendMessage selectedUser={selectedThread?.user as string} />
           {user?.uid !== selectedThread?.user && (
             <>
               <ReportUser

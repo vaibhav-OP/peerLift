@@ -99,6 +99,8 @@ export default function MessageUI({
       });
 
       setMessageList(fetchedMessages);
+      if (QuerySnapshot.empty || QuerySnapshot.size < 15)
+        setAllMessagesFetched(true);
       scrollToBottom();
     });
     return () => {

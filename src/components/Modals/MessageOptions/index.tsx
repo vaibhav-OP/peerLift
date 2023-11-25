@@ -8,8 +8,12 @@ import Modal from "..";
 import { db } from "@/firebase/config";
 import UserInfo from "@/components/UserInfo";
 import CopyText from "@/components/Buttons/CopyText";
-import { ReportUser, SendFriendRequest } from "@/components/Buttons";
 import { useMessageOptionsContext } from "@/context/messageOptionContext";
+import {
+  ReportUser,
+  SendMessage,
+  SendFriendRequest,
+} from "@/components/Buttons";
 
 export default function MessageOptionsModal() {
   const { user } = useAuthContext();
@@ -57,6 +61,7 @@ export default function MessageOptionsModal() {
             callBack={closeMessageOptionModal}>
             Copy Message
           </CopyText>
+          <SendMessage selectedUser={selectedMessage?.user as string} />
           {user?.uid !== selectedMessage?.user && (
             <>
               <ReportUser
