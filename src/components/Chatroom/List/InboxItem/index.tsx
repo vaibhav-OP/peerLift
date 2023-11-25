@@ -1,6 +1,9 @@
+"use client";
+
 import clsx from "clsx";
 import Link from "next/link";
 import { GoDotFill } from "react-icons/go";
+import { useEffect, useState } from "react";
 
 import { InAppLinks } from "@/types/links";
 import { Chatroom } from "@/types/chatroom";
@@ -16,14 +19,16 @@ export default function InboxItem({
   chatroom: Chatroom;
 }) {
   const { user } = useAuthContext();
+  const [hasReadMsg, setHasReadMsg] = useState<boolean>();
+  const [receiverUid, setReceiverUid] = useState<string>();
 
-  const receiverUid = chatroom.members.find(member => member != user?.uid);
+  useEffect(() => {
+    setReceiverUid(chatroom.members.find(member => member != user?.uid));
+
+    setHasReadMsg(chatroom.lastMessage?.readBy?.includes(user?.uid as string));
+  }, [chatroom]);
+
   if (!receiverUid) return <div></div>;
-
-  const hasReadMsg = chatroom.lastMessage?.readBy?.includes(
-    user?.uid as string
-  );
-
   return (
     <li className={clsx("border-b py-3 border-text/10 px-4", className)}>
       <Link href={`${InAppLinks.messages}/${chatroom.uid}`} className="flex">
