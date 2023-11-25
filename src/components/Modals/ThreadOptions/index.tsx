@@ -63,25 +63,29 @@ export default function ThreadOptions() {
             callBack={closeThreadOptionModal}>
             Copy Body
           </CopyText>
-          <ReportUser
-            closeModalFallback={closeThreadOptionModal}
-            report={{
-              type: "thread",
-              uid: selectedThread?.uid as string,
-              body: selectedThread?.body as string,
-              author: selectedThread?.user as string,
-              title: selectedThread?.title as string,
-            }}
-          />
-          <button
-            className="py-2 px-3 text-primary border-b border-text/10 text-left"
-            onClick={reportThread}>
-            Report Thread
-          </button>
-          <SendFriendRequest
-            closeModalFallback={closeThreadOptionModal}
-            selectedUser={selectedThread?.user as string}
-          />
+          {user?.uid !== selectedThread?.user && (
+            <>
+              <ReportUser
+                closeModalFallback={closeThreadOptionModal}
+                report={{
+                  type: "thread",
+                  uid: selectedThread?.uid as string,
+                  body: selectedThread?.body as string,
+                  author: selectedThread?.user as string,
+                  title: selectedThread?.title as string,
+                }}
+              />
+              <button
+                className="py-2 px-3 text-primary border-b border-text/10 text-left"
+                onClick={reportThread}>
+                Report Thread
+              </button>
+              <SendFriendRequest
+                closeModalFallback={closeThreadOptionModal}
+                selectedUser={selectedThread?.user as string}
+              />
+            </>
+          )}
         </div>
       </div>
     </Modal>
