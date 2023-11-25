@@ -1,7 +1,6 @@
 "use server";
 
-import { FieldValue } from "firebase-admin/firestore";
-import { firebaseAdmin } from "@/firebase/adminConfig";
+import { firebaseAdmin, FieldValue } from "@/firebase/adminConfig";
 
 export default async function sendFriendRequest(
   senderUid: string,
