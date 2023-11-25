@@ -1,6 +1,7 @@
 import { useAuthContext } from "@/context/authContext";
 import sendFriendRequest from "./sendFriendRequest";
 import toast from "react-hot-toast";
+import removeFriend from "./removeFriend";
 
 export default function SendFriendRequest({
   selectedUser,
@@ -11,8 +12,9 @@ export default function SendFriendRequest({
 }) {
   const { user } = useAuthContext();
 
+  if (!user || selectedUser === user.uid) return;
+
   const handleSendFriendRequest = async () => {
-    if (!user) return;
     closeModalFallback();
     const result = await sendFriendRequest(user?.uid, selectedUser);
 
@@ -23,7 +25,17 @@ export default function SendFriendRequest({
     }
   };
 
-  if (!user || selectedUser === user.uid) return;
+  const handleRemoveFriend = async () => {
+    closeModalFallback();
+    const result = await removeFriend(user?.uid, selectedUser);
+
+    if (result?.error) {
+      return toast.error(result.error);
+    } else {
+      toast.success("Removed friend succesfully.");
+    }
+  };
+
   return (
     <>
       {!user?.friendList?.includes(selectedUser) ? (
@@ -33,7 +45,9 @@ export default function SendFriendRequest({
           Send Friend Request
         </button>
       ) : (
-        <button className="py-2 px-3 text-primary text-left">
+        <button
+          className="py-2 px-3 text-primary text-left"
+          onClick={handleRemoveFriend}>
           Remove Friend
         </button>
       )}
