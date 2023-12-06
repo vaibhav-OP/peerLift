@@ -10,6 +10,11 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: "#FFFFFF",
     display: "standalone",
     orientation: "portrait",
+    shortcuts: [
+      { name: "profile", url: "/profile" },
+      { name: "messages", url: "/messages" },
+      { name: "community", url: "/community" },
+    ],
     icons: [
       {
         src: "icons/windows11/SmallTile.scale-100.png",
