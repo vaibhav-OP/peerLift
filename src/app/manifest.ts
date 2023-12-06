@@ -3,7 +3,7 @@ import { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Real Peer",
-    short_name: "R",
+    short_name: "RealPeer",
     description: "real peer",
     start_url: "/",
     theme_color: "#000",
