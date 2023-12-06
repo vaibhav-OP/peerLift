@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
 
 import ReactToastify from "@/components/ReactToastify";
@@ -8,9 +8,15 @@ import "@/style/globals.css";
 import { AuthContextProvider } from "@/context/authContext";
 
 export const metadata: Metadata = {
-  title: "peer lift",
+  title: "Real Peer",
   description: "PEER_LIFT",
 };
+
+export function generateViewport() {
+  return {
+    themeColor: "#000",
+  };
+}
 
 const roboto = Roboto({ weight: "400", subsets: ["latin"] });
 
