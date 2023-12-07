@@ -1,4 +1,4 @@
-import { InterestArray } from "@/components/Forms/Registration/types";
+import { Interests } from "@/components/Forms/Registration/types";
 import { User } from "firebase/auth";
 import { Timestamp } from "firebase/firestore";
 
@@ -10,7 +10,7 @@ export interface UserData {
   photoURL?: string;
   displayName?: string;
   bookmarks?: string[];
-  interests?: InterestArray;
+  interests?: Interests["name"][];
   registered: boolean;
   friendList?: string[];
 }

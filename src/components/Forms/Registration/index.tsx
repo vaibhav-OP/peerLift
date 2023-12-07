@@ -2,12 +2,10 @@
 import clsx from "clsx";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
-import { InAppLinks } from "@/types/links";
 import useMultistepForm from "@/hooks/multiStepForm";
 import { useAuthContext } from "@/context/authContext";
 import BackgroundImage from "@/../public/background-shape.svg";
@@ -18,7 +16,6 @@ import { Interests, UserDetails } from "./types";
 const genderOptiopns: UserDetails["gender"][] = ["male", "female"];
 
 export default function RegistrationForm() {
-  const route = useRouter();
   const { user } = useAuthContext();
 
   const [selectedInterest, setSelectedInterest] = useState<Interests[]>([]);
@@ -141,7 +138,7 @@ export default function RegistrationForm() {
         <div className="flex gap-6 flex-wrap flex-row text-base font-semibold overflow-y-auto scrollbar-none">
           {interestList.map(interest => (
             <button
-              key={interest}
+              key={interest.name}
               onClick={e => handleUpdateInterest(interest)}
               className={clsx(
                 `bg-secondary py-2 px-3 rounded-full w-fit h-fit transition-all cursor-pointer hover:bg-transparent hover:border`,
@@ -149,7 +146,7 @@ export default function RegistrationForm() {
                   ? "bg-transparent border text-secondary hover:border-none hover:text-secondary hover:bg-secondary"
                   : "hover:text-secondary"
               )}>
-              {interest}
+              {interest.name}
             </button>
           ))}
         </div>
