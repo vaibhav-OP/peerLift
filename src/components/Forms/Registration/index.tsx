@@ -18,7 +18,9 @@ const genderOptiopns: UserDetails["gender"][] = ["male", "female"];
 export default function RegistrationForm() {
   const { user } = useAuthContext();
 
-  const [selectedInterest, setSelectedInterest] = useState<Interests[]>([]);
+  const [selectedInterest, setSelectedInterest] = useState<Interests["name"][]>(
+    []
+  );
   const [userDetails, setUserDetails] = useState({
     bio: "",
     gender: "male",
@@ -39,7 +41,7 @@ export default function RegistrationForm() {
     }));
   };
 
-  const handleUpdateInterest = (interest: Interests) => {
+  const handleUpdateInterest = (interest: Interests["name"]) => {
     setSelectedInterest(prevInterests => {
       if (prevInterests.find(oldInterest => oldInterest == interest))
         return prevInterests.filter(oldInterest => oldInterest != interest);
@@ -139,10 +141,10 @@ export default function RegistrationForm() {
           {interestList.map(interest => (
             <button
               key={interest.name}
-              onClick={e => handleUpdateInterest(interest)}
+              onClick={e => handleUpdateInterest(interest.name)}
               className={clsx(
                 `bg-secondary py-2 px-3 rounded-full w-fit h-fit transition-all cursor-pointer hover:bg-transparent hover:border`,
-                selectedInterest.includes(interest)
+                selectedInterest.includes(interest.name)
                   ? "bg-transparent border text-secondary hover:border-none hover:text-secondary hover:bg-secondary"
                   : "hover:text-secondary"
               )}>
