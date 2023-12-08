@@ -30,11 +30,12 @@ export default function UserInfo({ user }: { user: string }) {
   return (
     <>
       <Avatar
-        alt=""
-        width={28}
-        height={28}
-        className="w-7 h-7 object-cover object-center rounded-full"
-        src={userData?.photoURL as string}
+        width={32}
+        height={32}
+        className="w-8 h-8 object-cover object-center rounded-full"
+        src={userData?.photoURL}
+        name={userData?.displayName || ""}
+        alt={`${userData?.displayName}'s avatar`}
       />
       <div>{userData?.displayName}</div>
     </>

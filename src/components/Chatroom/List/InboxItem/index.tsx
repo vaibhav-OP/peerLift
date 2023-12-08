@@ -33,8 +33,8 @@ export default function InboxItem({
     <li className={clsx("border-b py-3 border-text/10 px-4", className)}>
       <Link href={`${InAppLinks.messages}/${chatroom.uid}`} className="flex">
         <div className="flex-grow">
-          <div className="flex gap-3 mb-1 items-center text-xs font-bold">
-            <div className="flex gap-3 items-center">
+          <div className="flex gap-3 mb-1 text-xs font-bold">
+            <div className="flex gap-2">
               <UserInfo user={receiverUid} />
             </div>
             <span className="text-text/40">

@@ -11,7 +11,7 @@ export default function MessageLI({ message }: { message: Message }) {
   return (
     <li className="border-t py-3 px-6 flex border-text/10">
       <div className="flex-grow">
-        <div className="flex gap-3">
+        <div className="flex gap-2">
           <UserInfo user={message.user} />
           <span className="text-text/40">
             {formatTimeSince(message.createdAt?.toDate() || new Date())}

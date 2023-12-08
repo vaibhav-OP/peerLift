@@ -51,10 +51,11 @@ export default function ProfilePage() {
       <div className="bg-text text-background flex flex-col justify-center items-center h-96 gap-3">
         <ProfileHeader />
         <Avatar
-          src={user?.photoURL}
-          alt={user?.displayName || ""}
-          height={112}
           width={112}
+          height={112}
+          src={user?.photoURL}
+          name={user?.displayName || ""}
+          alt={`${user?.displayName}'s avatar`}
           className="w-28 h-28 rounded-full"
         />
 
