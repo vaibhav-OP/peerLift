@@ -19,6 +19,7 @@ const config: Config = {
     },
     extend: {
       height: {
+        fullWoHeader: "calc(100% - 64px)",
         // @ts-ignore
         screen: ["100vh", "100dvh"],
       },

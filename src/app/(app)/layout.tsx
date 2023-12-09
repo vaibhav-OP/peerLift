@@ -6,7 +6,9 @@ import { ThreadOptionsContextProvider } from "@/context/threadOptionContext";
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthContextProvider>
-      <main className="pb-20 h-[calc(100%_-_80px)]" id="app">
+      <main
+        className="overflow-y-auto overflow-hidden flex flex-col scrollbar-thin scrollbar-thumb-text/40"
+        id="app">
         <ThreadOptionsContextProvider>
           <ThreadOptions />
           {children}

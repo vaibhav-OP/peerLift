@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={clsx(
-          "bg-background text-text h-screen flex flex-col",
+          "bg-background text-text h-screen grid grid-rows-[1fr_auto]",
           roboto.className
         )}>
         <ReactToastify />

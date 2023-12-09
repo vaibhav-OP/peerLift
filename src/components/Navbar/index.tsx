@@ -52,7 +52,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-background">
-      <ul className="flex w-full justify-between fixed bg-background bottom-0 left-0 text-sm font-bold px-4 sm:px-12 py-3">
+      <ul className="flex w-full justify-between bg-background text-sm font-bold px-4 sm:px-12 py-3">
         <li
           className={clsx(
             "flex items-center sm:block",

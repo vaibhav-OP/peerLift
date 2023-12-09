@@ -1,9 +1,15 @@
 "use client";
 import clsx from "clsx";
 import { useState } from "react";
+import dynamic from "next/dynamic";
+import LoadingSkeleton from "@/components/LoadingScreen";
 
-import FriendList from "./FriendList";
-import PendingRequests from "./PendingRequests";
+const FriendList = dynamic(() => import("./FriendList"), {
+  loading: () => <LoadingSkeleton />,
+});
+const PendingRequests = dynamic(() => import("./PendingRequests"), {
+  loading: () => <LoadingSkeleton />,
+});
 
 export default function Friends({
   pendingRequestsCount,
@@ -38,14 +44,12 @@ export default function Friends({
           Pending
         </button>
       </div>
-      <div>
+      {
         {
-          {
-            friends: <FriendList />,
-            pending: <PendingRequests />,
-          }[currentSection]
-        }
-      </div>
+          friends: <FriendList />,
+          pending: <PendingRequests />,
+        }[currentSection]
+      }
     </>
   );
 }

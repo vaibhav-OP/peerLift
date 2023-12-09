@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
@@ -76,12 +76,16 @@ const ThreadLi = memo(function ThreadLi({
     }
   }
 
+  const userDetails = useMemo(() => <UserInfo user={thread.user} />, []);
+
   return (
     <Wrapper>
       <div className="flex gap-3">
-        <UserInfo user={thread.user} />
+        {userDetails}
         <span className="text-text/40">
-          {formatTimeSince(thread.createdAt.toDate())}
+          {formatTimeSince(
+            thread.createdAt ? thread.createdAt.toDate() : new Date()
+          )}
         </span>
       </div>
       <Link href={`${InAppLinks.commuinity}/${thread.type}/${thread.uid}`}>

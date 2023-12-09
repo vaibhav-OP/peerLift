@@ -6,7 +6,7 @@ export type Thread = {
   title: string;
   type: string;
   user: string;
-  createdAt: Timestamp;
+  createdAt?: Timestamp;
 };
 
 export type ThreadList = Array<Thread>;

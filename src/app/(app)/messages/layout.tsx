@@ -11,7 +11,7 @@ export default function MessageLayout({
   return (
     <>
       <TextHeader heading="Messages" />
-      <div className="flex h-full relative overflow-hidden">
+      <div className="flex h-fullWoHeader relative overflow-hidden">
         <MobileNavigationContextProvider>
           <InboxList />
           <div className="flex-grow relative flex flex-col">{children}</div>
