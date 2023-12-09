@@ -33,7 +33,7 @@ export default function ProfilePage() {
 
   const UserProfileDetails = useMemo(
     () => (
-      <div className="bg-text text-background flex flex-col justify-center items-center h-96 gap-3">
+      <div className="bg-text text-background flex flex-col justify-center items-center min-h-[24rem] h-96 gap-3">
         <ProfileHeader />
         <Avatar
           width={112}
