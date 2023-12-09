@@ -26,7 +26,7 @@ export default function MessageLI({ message }: { message: Message }) {
         </button>
       </li>
     ),
-    [message]
+    [message, openMessageOptionModal]
   );
 
   return messageLi;

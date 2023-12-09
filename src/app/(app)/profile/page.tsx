@@ -78,7 +78,7 @@ export default function ProfilePage() {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [user]);
 
   return (
     <>

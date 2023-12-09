@@ -33,7 +33,7 @@ export default function SavedThreads() {
       setThreadsList(savedThreads);
     }
     fetchSavedThreads();
-  }, []);
+  }, [user]);
 
   return <ThreadUl threadsList={threadsList} />;
 }

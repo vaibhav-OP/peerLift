@@ -25,7 +25,7 @@ export default function UserInfo({ user }: { user: string }) {
       }
     }
     fetchUser();
-  }, []);
+  }, [user]);
 
   return (
     <>

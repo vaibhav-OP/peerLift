@@ -61,7 +61,7 @@ export default function ThreadsList({ threadType }: { threadType: string }) {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [threadType]);
 
   return <ThreadUl threadsList={threadsList} />;
 }

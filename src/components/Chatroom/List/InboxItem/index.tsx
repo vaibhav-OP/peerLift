@@ -26,7 +26,7 @@ export default function InboxItem({
     setReceiverUid(chatroom.members.find(member => member != user?.uid));
 
     setHasReadMsg(chatroom.lastMessage?.readBy?.includes(user?.uid as string));
-  }, [chatroom]);
+  }, [chatroom, user?.uid]);
 
   if (!receiverUid) return <div></div>;
   return (

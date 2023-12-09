@@ -57,7 +57,7 @@ export default function CalendarSection() {
       );
     });
     setSelectedJournalData(selectedJournalData);
-  }, [selectedDate, journalData]);
+  }, [selectedDate, journalData, user]);
 
   return (
     <section className="px-5 sm:px-8 border-t border-text/10 py-3">

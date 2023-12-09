@@ -48,7 +48,7 @@ export default function Navbar() {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [user]);
 
   return (
     <nav className="bg-background">

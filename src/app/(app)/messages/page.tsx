@@ -10,7 +10,7 @@ export default function MessagePage() {
   // opens the navbar by default
   useEffect(() => {
     if (openMobileNav) openMobileNav();
-  }, []);
+  }, [openMobileNav]);
   return (
     <div className="flex justify-center items-center flex-col h-full gap-3 text-center">
       <BsFillChatDotsFill className="text-8xl w-24 h-24 stroke-text stroke-1 overflow-visible text-background" />

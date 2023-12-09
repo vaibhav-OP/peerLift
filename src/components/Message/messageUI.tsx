@@ -78,7 +78,7 @@ export default function MessageUI({
     return () => {
       unsubscribe();
     };
-  }, [inView]);
+  }, [inView, allMessagesFetched, messageList, params.thread_id]);
 
   // initially load Messages
   useEffect(() => {
@@ -106,7 +106,7 @@ export default function MessageUI({
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [params.thread_id]);
 
   const scrollToBottom = () => {
     if (!bottomElementRef.current) return;

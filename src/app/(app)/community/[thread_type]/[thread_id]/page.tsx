@@ -32,7 +32,7 @@ export default function ThreadPage({
       }
     }
     fetchThread();
-  }, []);
+  }, [params.thread_id]);
 
   if (threadData === undefined) return <LoadingSkeleton />;
   if (threadData === null) return <Error statusCode={404} />;

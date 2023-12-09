@@ -76,7 +76,10 @@ const ThreadLi = memo(function ThreadLi({
     }
   }
 
-  const userDetails = useMemo(() => <UserInfo user={thread.user} />, []);
+  const userDetails = useMemo(
+    () => <UserInfo user={thread.user} />,
+    [thread.user]
+  );
 
   return (
     <Wrapper>

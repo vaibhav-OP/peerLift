@@ -30,7 +30,7 @@ export default function MyPosts() {
       setThreadsList(ThreadsList);
     }
     fetchThreads();
-  }, []);
+  }, [user]);
 
   return <ThreadUl threadsList={threadsList} />;
 }

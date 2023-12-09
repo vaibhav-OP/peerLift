@@ -76,7 +76,7 @@ export default function ChatPage({
     return () => {
       unsubscribe();
     };
-  }, [params.chat_id]);
+  }, [params.chat_id, closeMobileNav, user?.uid]);
 
   useEffect(() => {
     if (!inView || allMessagesFetched) return;
@@ -115,7 +115,7 @@ export default function ChatPage({
     return () => {
       unsubscribe();
     };
-  }, [inView]);
+  }, [inView, allMessagesFetched]);
 
   const scrollToBottom = () => {
     if (!bottomElementRef.current) return;
