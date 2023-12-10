@@ -102,7 +102,7 @@ export default function ProfilePage() {
             </button>
           ))}
         </div>
-        <section className="flex-grow flex flex-col">
+        <section className="flex-grow flex flex-col overflow-y-auto">
           {
             {
               Saved: <SavedThreads />,

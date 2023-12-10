@@ -9,7 +9,7 @@ import { useAuthContext } from "@/context/authContext";
 
 export default function SavedThreads() {
   const { user } = useAuthContext();
-  const [threadsList, setThreadsList] = useState<Thread[]>();
+  const [threadsList, setThreadsList] = useState<Thread[]>([]);
 
   useEffect(() => {
     async function fetchSavedThreads() {

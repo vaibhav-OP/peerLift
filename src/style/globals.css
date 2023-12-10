@@ -12,3 +12,11 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   @apply appearance-none;
 }
+
+::-webkit-scrollbar {
+  @apply w-1;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-text/40 rounded-full;
+}

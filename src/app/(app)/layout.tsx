@@ -7,7 +7,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthContextProvider>
       <main
-        className="overflow-y-auto overflow-hidden flex flex-col scrollbar-thin scrollbar-thumb-text/40"
+        className="overflow-y-auto transition-all overflow-hidden flex flex-col"
         id="app">
         <ThreadOptionsContextProvider>
           <ThreadOptions />

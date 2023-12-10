@@ -118,7 +118,7 @@ export default function MessageUI({
   return (
     <>
       <ul
-        className="flex flex-col-reverse h-fit max-h-full mt-auto flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-text/40"
+        className="flex flex-col-reverse h-fit max-h-full mt-auto flex-grow overflow-y-auto"
         ref={ulRef}>
         <span ref={bottomElementRef} />
         {messageList.map(message => (
