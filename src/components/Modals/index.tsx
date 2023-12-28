@@ -22,7 +22,7 @@ export default function Modal({
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           className={clsx(
-            "fixed flex h-full w-full top-0 left-0 bg-text/40 z-50 backdrop-blur-sm",
+            "fixed flex h-full w-full top-0 left-0 bg-text/40 z-50 backdrop-blur-sm cursor-pointer",
             overlayClassName
           )}
           onClick={e => {
@@ -34,7 +34,7 @@ export default function Modal({
             whileInView={{ y: 0 }}
             initial={{ y: "100%" }}
             className={clsx(
-              "bg-background w-5/6 h-5/6 m-auto rounded-3xl overflow-hidden",
+              "bg-background w-5/6 h-5/6 m-auto rounded-3xl overflow-hidden cursor-default",
               contentClassName
             )}>
             {children}

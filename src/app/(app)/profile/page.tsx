@@ -10,6 +10,7 @@ import Avatar from "@/components/Avatar";
 import { ProfileHeader } from "@/components/Header";
 import { useAuthContext } from "@/context/authContext";
 import LoadingSkeleton from "@/components/LoadingScreen";
+import { useUpdateProfileContext } from "@/context/updateProfileContext";
 
 const MyPosts = dynamic(() => import("./MyPosts"), {
   loading: () => <LoadingSkeleton />,
@@ -26,6 +27,7 @@ const currentSectionList: CurrentSection[] = ["My Posts", "Friends", "Saved"];
 
 export default function ProfilePage() {
   const { user } = useAuthContext();
+  const { openThreadOptionModal } = useUpdateProfileContext();
 
   const [currentSection, setCurrentSection] =
     useState<CurrentSection>("My Posts");
@@ -45,10 +47,10 @@ export default function ProfilePage() {
         />
 
         <div className="flex gap-3">
-          <div className="bg-transparent outline-none text-center text-3xl font-normal">
+          <div className="bg-transparent outline-none text-center text-3xl font-normal cursor-default">
             {user?.displayName}
           </div>
-          <button className="text-2xl">
+          <button className="text-2xl" onClick={openThreadOptionModal}>
             <HiPencil />
           </button>
         </div>

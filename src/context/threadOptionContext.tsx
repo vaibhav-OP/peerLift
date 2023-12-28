@@ -17,7 +17,7 @@ export const useThreadOptionsContext = () => useContext(ThreadOptions);
 
 export const ThreadOptionsContextProvider = ({
   children,
-}: PropsWithChildren<{}>) => {
+}: PropsWithChildren) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedThread, setSelectedThread] = useState<Thread>();
 
